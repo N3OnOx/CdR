@@ -2,7 +2,7 @@
     "name": "07-restserver",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "signinup/login.html",
     "scripts": {
         "start": "node server/server.js",
         "test": "echo \"Error: no test specified\" && exit 1"
