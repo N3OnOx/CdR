@@ -1,21 +1,29 @@
 {
     "name": "CdR",
     "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
+    "description": "Conquista de Reinos",
+    "main": "app.js",
     "scripts": {
-        "start": "node server/server.js",
+        "start": "node app.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "",
+    "author": "Alejandro Sanchez",
     "license": "ISC",
     "dependencies": {
-        "bcrypt": "^1.0.3",
-        "body-parser": "^1.18.2",
-        "express": "^4.16.2",
-        "jsonwebtoken": "^8.2.0",
-        "mongoose": "^5.0.9",
-        "mongoose-unique-validator": "^2.0.0",
-        "underscore": "^1.8.3"
+        "bcryptjs": "*",
+        "body-parser": "^1.18.3",
+        "connect-flash": "*",
+        "cookie-parser": "^1.4.1",
+        "express": "*",
+        "express-handlebars": "*",
+        "express-messages": "*",
+        "express-session": "*",
+        "express-validator": "^5.3.0",
+        "mongodb": "^3.1.6",
+        "mongoose": "^5.3.0",
+        "nodemon": "^1.18.4",
+        "passport": "*",
+        "passport-http": "*",
+        "passport-local": "*"
     }
 }
