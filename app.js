@@ -13,17 +13,16 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-//mongoose.connect("mongodb://localhost:27017/cdr", { useNewUrlParser: true });
+// Connect to database
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
-
     if (err) throw err;
-
     console.log('Base de datos ONLINE');
-
 });
 mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;
 
+
+// Routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -85,17 +84,12 @@ app.use(function(req, res, next) {
 });
 
 
-
+// Routes use
 app.use('/', routes);
 app.use('/users', users);
 
-// Set Port
-//app.set('port', (process.env.PORT || 3000));
 
-//app.listen(app.get('port'), function() {
-//console.log('Server started on port ' + app.get('port'));
-//});
-
+// Listening port
 app.listen(process.env.PORT, () => {
     console.log('Escuchando puerto: ', process.env.PORT);
 });
