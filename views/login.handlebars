@@ -1,12 +1,13 @@
-<h2 class="page-header">Account Login</h2>
-<form method="post" action="/users/login">
-  <div class="form-group">
-    <label>Username</label>
-    <input type="text" class="form-control" name="username" placeholder="Username">
-  </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" class="form-control" name="password" placeholder="Password">
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
+<div class="login">
+    <h1>Iniciar sesión</h1>
+    {{#if error}}
+        <div id="errormsg" class="alert alert-danger alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{error}}</div>
+        {{/if}}
+    <form method="post" action="/users/login">
+        <input type="text" autocomplete="off" name="username" placeholder="Usuario" required="required" />
+        <input type="password" autocomplete="off" name="password" placeholder="Contraseña" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Entrar</button>
+    </form>
+    <p>¿Aún no tienes cuenta? <a href="/users/register">Registrarse</a></p>
+</div>

@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-// Get Homepage
+// Homepage
 router.get('/', ensureAuthenticated, function(req, res) {
-    res.render('index');
+    res.render('index', {
+        username: req.user.username
+    });
 });
 
-// Get Homepage
+// Web2 Page
 router.get('/web2', ensureAuthenticated, function(req, res) {
     res.render('web2');
 });
