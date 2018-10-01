@@ -10,7 +10,13 @@ router.get('/', ensureAuthenticated, function(req, res) {
 
 // Web2 Page
 router.get('/web2', ensureAuthenticated, function(req, res) {
-    res.render('web2');
+    res.render('web2', {
+        tiempo: 259205,
+        nombres: [
+            { profesion: 'Herreria', tiempo: '15000' },
+            { profesion: 'Panaderia', tiempo: '15000' }
+        ]
+    });
 });
 
 function ensureAuthenticated(req, res, next) {

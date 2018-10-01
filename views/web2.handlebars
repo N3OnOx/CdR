@@ -1,2 +1,61 @@
- <h2 class="page-header">Dashboard</h2>
-<p>Welcome to your web2</p>  
+<h2 class="page-header">Construir</h2>
+<ul class="list-group">
+    <a href="#">
+        <li id="make" onclick="make({{tiempo}})" class="list-group-item"><span id="time"></span></li>
+    </a>
+    
+</ul>
+
+<script>
+    var seconds = {{ tiempo }};
+    // Multiplicar por 1000 porque Date() trabaja con milisegundos
+    var date = new Date(seconds * 1000);
+    var hh = date.getUTCHours();
+    var mm = date.getUTCMinutes();
+    var ss = date.getSeconds();
+
+    var dd = 0;
+    dd = Math.trunc(seconds / 86400);
+    console.log(dd);
+
+    // Poner dos dígitos
+    if (dd < 10) { dd = "0" + dd; }
+    if (hh < 10) { hh = "0" + hh; }
+    if (mm < 10) { mm = "0" + mm; }
+    if (ss < 10) { ss = "0" + ss; }
+    // Formatear a HH:MM:SS
+    var t = dd + ":" + hh + ":" + mm + ":" + ss;
+    document.getElementById("time").innerHTML = t;
+
+    function make(tiempo) {
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                var date = new Date(timer * 1000);
+                var hh = date.getUTCHours();
+                var mm = date.getUTCMinutes();
+                var ss = date.getSeconds();
+                var dd = Math.trunc(timer / 86400);
+                console.log(dd);
+               
+
+                if (dd < 10) { dd = "0" + dd; }
+                if (hh < 10) { hh = "0" + hh; }
+                if (mm < 10) { mm = "0" + mm; }
+                if (ss < 10) { ss = "0" + ss; }
+                // This formats your string to HH:MM:SS
+                var t = dd + ":" + hh + ":" + mm + ":" + ss;
+
+                display.textContent = t;
+                if (--timer < -1) {
+                    clearInterval(timer);
+                    $("#make").fadeOut(0);
+                }
+            }, 1000);
+        }
+
+        display = document.querySelector('#time');
+        startTimer(tiempo, display);
+
+    }
+</script>

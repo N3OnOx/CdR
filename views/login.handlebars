@@ -5,7 +5,7 @@
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{error}}</div>
         {{/if}}
     <form method="post" action="/users/login">
-        <input type="text" autocomplete="off" name="username" placeholder="Usuario" required="required" />
+        <input type="text" autocomplete="off" name="username" placeholder="Usuario" autofocus required="required" />
         <input type="password" autocomplete="off" name="password" placeholder="Contraseña" required="required" />
         <button type="submit" class="btn btn-primary btn-block btn-large">Entrar</button>
     </form>
