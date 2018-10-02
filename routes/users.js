@@ -4,6 +4,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user');
+var Family = require('../models/family');
 
 // Register
 router.get('/register', function(req, res) {
@@ -66,6 +67,15 @@ router.post('/register', function(req, res) {
                     User.createUser(newUser, function(err, user) {
                         if (err) throw err;
                         console.log(user);
+                    });
+
+                    var newFamily = new Family({
+                        user: newUser,
+                        name: 'Tyrrel',
+                    });
+                    Family.createFamily(newFamily, function(err, user) {
+                        if (err) throw err;
+                        console.log(newFamily);
                     });
                     req.flash('success_msg', 'El usuario ha sido registrado y puede iniciar sesión');
                     res.redirect('/users/login');

@@ -21,13 +21,13 @@ mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
 mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;
 
-
-// Routes
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
 // Init App
 var app = express();
+
+// Routes
+app.use(require('./routes/routes'));
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -83,11 +83,9 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 // Routes use
 app.use('/', routes);
 app.use('/users', users);
-
 
 // Listening port
 app.listen(process.env.PORT, () => {
