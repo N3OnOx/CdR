@@ -20,6 +20,7 @@ mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
 });
 mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;
+require('./models/construction');
 
 // Init App
 var app = express();

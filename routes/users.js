@@ -5,6 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user');
 var Family = require('../models/family');
+var Construction = require('../models/construction');
 
 // Register
 router.get('/register', function(req, res) {
@@ -23,6 +24,7 @@ router.post('/register', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.password2;
+    var family = req.body.family;
 
     // Validation
     req.checkBody('name', 'El nombre es necesario').notEmpty();
@@ -31,6 +33,7 @@ router.post('/register', function(req, res) {
     req.checkBody('username', 'El usuario es necesario').notEmpty();
     req.checkBody('password', 'La contraseña es requerida').notEmpty();
     req.checkBody('password2', 'Las contraseñas no coinciden').equals(req.body.password);
+    req.checkBody('family', 'La familia es requerida').notEmpty();
 
     var errors = req.validationErrors();
 
@@ -58,25 +61,41 @@ router.post('/register', function(req, res) {
                         mail: mail
                     });
                 } else {
+
                     var newUser = new User({
                         name: name,
                         email: email,
                         username: username,
-                        password: password
+                        password: password,
+                    });
+
+                    var newConstructions = new Construction({
+                        user: newUser
+                    });
+
+                    var newFamily = new Family({
+                        user: newUser,
+                        name: family,
+                    });
+
+                    newUser.family = newFamily._id;
+
+                    Family.createFamily(newFamily, function(err, user) {
+                        if (err) throw err;
+                        console.log(newFamily);
                     });
                     User.createUser(newUser, function(err, user) {
                         if (err) throw err;
                         console.log(user);
                     });
 
-                    var newFamily = new Family({
-                        user: newUser,
-                        name: 'Tyrrel',
-                    });
-                    Family.createFamily(newFamily, function(err, user) {
+                    Construction.createConstructions(newConstructions, function(err, user) {
                         if (err) throw err;
-                        console.log(newFamily);
+                        console.log(newConstructions);
                     });
+
+
+
                     req.flash('success_msg', 'El usuario ha sido registrado y puede iniciar sesión');
                     res.redirect('/users/login');
                 }
