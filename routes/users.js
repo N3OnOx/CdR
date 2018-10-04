@@ -76,9 +76,11 @@ router.post('/register', function(req, res) {
                     var newFamily = new Family({
                         user: newUser,
                         name: family,
+                        constructionID: newConstructions._id
                     });
 
                     newUser.family = newFamily._id;
+                    newUser.construction = newConstructions._id;
 
                     Family.createFamily(newFamily, function(err, user) {
                         if (err) throw err;
@@ -93,7 +95,6 @@ router.post('/register', function(req, res) {
                         if (err) throw err;
                         console.log(newConstructions);
                     });
-
 
 
                     req.flash('success_msg', 'El usuario ha sido registrado y puede iniciar sesión');

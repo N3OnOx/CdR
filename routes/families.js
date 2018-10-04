@@ -122,56 +122,51 @@ app.put('/families/updateConstruction/:id/:construction', (req, res) => {
     });
 });
 
-app.put('/families/updateResourcesPerHour/:id', (req, res) => {
-    let id = req.params.id;
+function updateResourcesPerHour(req, res) {
+    Family.find({})
+        .populate('user')
+        .exec((err, familias) => {
+            familias.forEach(familia => {
+                let id = familia._id;
+                Family.findById(id, (err, familiaDB) => {
 
-    Family.findById(id, (err, familiaDB) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        });
+                    }
 
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
+                    if (!familiaDB) {
+                        return res.status(400).json({
+                            ok: false,
+                            err
+                        });
+                    }
 
-        if (!familiaDB) {
-            return res.status(400).json({
-                ok: false,
-                err
-            });
-        }
+                    var idcons = familiaDB.constructionID;
+                    Construction.findById(idcons)
+                        .populate('user')
+                        .exec((err, constructionsDB) => {
+                            if (err) {
+                                return res.status(400).json({
+                                    ok: false,
+                                    err
+                                });
+                            }
 
-        var idcons = '5bb5ee18eb950c23d465cbe9';
-        Construction.findById(idcons)
-            .populate('user')
-            .exec((err, constructionsDB) => {
-                if (err) {
-                    return res.status(400).json({
-                        ok: false,
-                        err
-                    });
-                }
 
-                function intervalFunc() {
-                    familiaDB.resources.food = familiaDB.resources.food + constructionsDB.foundry.nivel.one.benefits;
-                    console.log('Comida producida: ' + familiaDB.resources.food);
-                    familiaDB.save();
-
-                }
-
-                setInterval(intervalFunc, 3000);
-
-                res.json({
-                    ok: true,
-                    constructionsDB
+                            familiaDB.resources.food = familiaDB.resources.food + constructionsDB.foundry.nivel.one.benefits;
+                            familiaDB.save();
+                        })
+                    console.log('User: ' + familiaDB.name + '||--> Recurso obtenido: ' + familiaDB.resources.food + ' de comida.')
                 });
-            })
+            });
+        });
+};
+setInterval(updateResourcesPerHour, 3000);
+updateResourcesPerHour();
 
-    });
-
-
-
-});
 
 
 module.exports = app;

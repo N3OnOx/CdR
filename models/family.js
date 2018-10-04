@@ -37,7 +37,8 @@ var FamilySchema = mongoose.Schema({
         stoneWall: { type: Number, default: 0 },
         archery: { type: Number, default: 0 },
         barn: { type: Number, default: 0 }
-    }
+    },
+    constructionID: { type: String }
 });
 
 module.exports = mongoose.model('Family', FamilySchema);

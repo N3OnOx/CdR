@@ -18,6 +18,9 @@ var UserSchema = mongoose.Schema({
     },
     family: {
         type: String
+    },
+    construction: {
+        type: String
     }
 });
 
