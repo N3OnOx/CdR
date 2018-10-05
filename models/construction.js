@@ -4,7 +4,6 @@ var User = mongoose.model('User');
 var Schema = mongoose.Schema;
 
 var ConstructionsSchema = mongoose.Schema({
-    user: { type: Schema.ObjectId, ref: "User" },
     foundry: {
         nivel: {
             one: {

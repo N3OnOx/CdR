@@ -123,6 +123,7 @@ app.put('/families/updateConstruction/:id/:construction', (req, res) => {
 });
 
 function updateResourcesPerHour(req, res) {
+
     Family.find({})
         .populate('user')
         .exec((err, familias) => {
@@ -147,7 +148,7 @@ function updateResourcesPerHour(req, res) {
                     var idcons = familiaDB.constructionID;
                     Construction.findById(idcons)
                         .populate('user')
-                        .exec((err, constructionsDB) => {
+                        .exec((err, constructionDB) => {
                             if (err) {
                                 return res.status(400).json({
                                     ok: false,
@@ -155,16 +156,18 @@ function updateResourcesPerHour(req, res) {
                                 });
                             }
 
-
-                            familiaDB.resources.food = familiaDB.resources.food + constructionsDB.foundry.nivel.one.benefits;
-                            familiaDB.save();
+                            let nivelConst = familiaDB.construction.foundry;
+                            if (nivelConst == 1) {
+                                familiaDB.resources.food = familiaDB.resources.food + constructionDB.foundry.nivel.one.benefits;
+                                familiaDB.save();
+                                console.log('User: ' + familiaDB.name + ' ||--> Recurso obtenido: ' + familiaDB.resources.food + ' de comida.')
+                            }
                         })
-                    console.log('User: ' + familiaDB.name + '||--> Recurso obtenido: ' + familiaDB.resources.food + ' de comida.')
                 });
             });
         });
 };
-setInterval(updateResourcesPerHour, 3000);
+setInterval(updateResourcesPerHour, 60000);
 updateResourcesPerHour();
 
 
