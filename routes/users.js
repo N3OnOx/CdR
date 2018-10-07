@@ -5,7 +5,6 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var User = require('../models/user');
 var Family = require('../models/family');
-var Construction = require('../models/construction');
 
 // Register
 router.get('/register', function(req, res) {
@@ -69,18 +68,12 @@ router.post('/register', function(req, res) {
                         password: password,
                     });
 
-                    var newConstructions = new Construction({
-                        user: newUser
-                    });
-
                     var newFamily = new Family({
                         user: newUser,
                         name: family,
-                        constructionID: newConstructions._id
                     });
 
                     newUser.family = newFamily._id;
-                    newUser.construction = newConstructions._id;
 
                     Family.createFamily(newFamily, function(err, user) {
                         if (err) throw err;
@@ -88,14 +81,7 @@ router.post('/register', function(req, res) {
                     });
                     User.createUser(newUser, function(err, user) {
                         if (err) throw err;
-                        console.log(user);
                     });
-
-                    Construction.createConstructions(newConstructions, function(err, user) {
-                        if (err) throw err;
-                        console.log(newConstructions);
-                    });
-
 
                     req.flash('success_msg', 'El usuario ha sido registrado y puede iniciar sesión');
                     res.redirect('/users/login');

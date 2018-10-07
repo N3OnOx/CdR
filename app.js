@@ -17,11 +17,11 @@ var mongoose = require('mongoose');
 // Connect to database
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true }, (err, res) => {
     if (err) throw err;
-    console.log('Base de datos ONLINE');
+    console.log('Database ONLINE');
 });
 mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;
-require('./models/construction');
+
 
 // Init App
 var app = express();
@@ -91,5 +91,5 @@ app.use('/users', users);
 
 // Listening port
 app.listen(process.env.PORT, () => {
-    console.log('Escuchando puerto: ', process.env.PORT);
+    console.log('Listen: ', process.env.PORT);
 });

@@ -1,15 +1,13 @@
 var express = require('express');
 var Family = require('../models/family');
-var Construction = require('../models/construction');
 const app = express();
 
-
-// Actualizar familia
-app.put('/families/updateConstruction/:id/:construction', (req, res) => {
+// Actualizar una construccion de una familia
+app.put('/constructions/updateConstruction/:id/:construction', (req, res) => {
     let id = req.params.id;
     let construction = req.params.construction;
 
-    Construction.findById(id, (err, familiaDB) => {
+    Family.findById(id, (err, familiaDB) => {
 
         if (err) {
             return res.status(500).json({
@@ -25,23 +23,36 @@ app.put('/families/updateConstruction/:id/:construction', (req, res) => {
             });
         }
 
-        if (construction == 'iron') {
-            familiaDB.resources.metals.iron = familiaDB.resources.metals.iron + quantity;
-        }
+        let arrayConstructions = familiaDB.construction;
 
-        familiaDB.save((err, familiaGuardada) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                });
+        for (var i = 0; i < arrayConstructions.length; i++) {
+            if (arrayConstructions[i][0] == construction) {
+                let nLevels = arrayConstructions[i][2].length;
+                if (arrayConstructions[i][1] < nLevels) {
+                    let valorConstruction = arrayConstructions[i][1] + 1;
+                    familiaDB.updateOne({
+                            "$set": {
+                                ['construction.' + i + '.1']: valorConstruction
+                            }
+                        },
+                        function(err, raw) {
+                            if (err) return handleError(err);
+                            //console.log('The raw response from Mongo was ', raw);
+                        }
+                    );
+                    res.status(200).json({
+                        ok: true,
+                        message: 'Familia actualizada con éxito'
+                    });
+                } else {
+                    res.status(500).json({
+                        ok: false,
+                        message: 'Max level of construction'
+                    });
+                }
             }
-            res.send("WHEEE");
-        });
-
-
+        }
     });
-
 });
 
 
