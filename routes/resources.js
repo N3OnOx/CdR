@@ -68,25 +68,34 @@ function updateResourcesPerMinute(req, res) {
 
                     for (var j = 0; j < arrayConstructions.length; j++) {
                         let levels = [1, 2, 3, 4, 5, 6, 7];
-                        let levelConst = familiaDB.construction[j][1];
+                        let levelConst = familiaDB.construction[j][2];
                         for (var i = 1; i < levels.length; i++) {
                             if (levelConst == i) {
-                                console.log()
-                                console.log(arrayConstructions[j][0]);
-                                let benefits = familiaDB.construction[0][2][i - 1].benefits;
-                                let value = familiaDB.resources[j][1] + benefits;
+                                //console.log()
+                                let construction = arrayConstructions[j][0];
+                                let benefits = familiaDB.construction[j][3][i - 1].benefits;
+                                let value = familiaDB.resources[getResourcePosition(familiaDB.construction[j][1])][1] + benefits;
+                                let resource = familiaDB.resources[getResourcePosition(familiaDB.construction[j][1])][0];
+                                let resourcePosition = getResourcePosition(resource);
+                                //console.log(construction)
+                                //console.log(value)
+                                //console.log(resource)
+                                //console.log(resourcePosition);
                                 familiaDB.updateOne({
                                         "$set": {
-                                            ['resources.' + j + '.1']: value
+                                            ['resources.' + resourcePosition + '.1']: value
                                         }
                                     },
                                     function(err, raw) {
-                                        if (err) return handleError(err);
+                                        if (err) {
+                                            console.log("Error")
+                                        };
                                         //console.log('The raw response from Mongo was ', raw);
-
+                                        console.log('Family: ' + familiaDB.name + '---> ' + resource + ': ' + value + '  ||--> ' + construction.toUpperCase() + ' está produciendo ' + benefits + ' de ' + resource + ' al minuto.')
                                     }
                                 );
-                                console.log('User: ' + familiaDB.name + '---> ' + familiaDB.resources[j][0] + ': ' + value + '  ||--> Está produciendo: ' + benefits + ' de ' + familiaDB.resources[j][0] + ' al minuto.')
+                                // El siguiente console log es para comprobar uno por uno la actualizacion de recursos en caso de que falle
+                                //console.log('User:' + familiaDB.user + ' Family: ' + familiaDB.name + '---> ' + resource + ': ' + value + '  ||--> ' + construction.toUpperCase() + ' está produciendo ' + benefits + ' de ' + resource + ' al minuto.')
                             }
                         }
                     };
@@ -94,25 +103,27 @@ function updateResourcesPerMinute(req, res) {
             });
         });
 };
-setInterval(updateResourcesPerMinute, 60000);
+setInterval(updateResourcesPerMinute, 10000);
 updateResourcesPerMinute();
 
 function getResourcePosition(resource) {
     let resourcePosition;
-    if (resource == "metals") {
+    if (resource == "gold") {
         resourcePosition = 0;
     } else if (resource == "food") {
         resourcePosition = 1;
     } else if (resource == "wood") {
         resourcePosition = 2;
-    } else if (resource == "poblation") {
-        resourcePosition = 3;
-    } else if (resource == "stone") {
-        resourcePosition = 4;
-    } else if (resource == "wine") {
-        resourcePosition = 5;
     } else if (resource == "steel") {
+        resourcePosition = 3;
+    } else if (resource == "iron") {
+        resourcePosition = 4;
+    } else if (resource == "stone") {
+        resourcePosition = 5;
+    } else if (resource == "wine") {
         resourcePosition = 6;
+    } else if (resource == "poblation") {
+        resourcePosition = 7;
     }
     return resourcePosition;
 }

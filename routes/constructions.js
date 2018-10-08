@@ -27,12 +27,12 @@ app.put('/constructions/updateConstruction/:id/:construction', (req, res) => {
 
         for (var i = 0; i < arrayConstructions.length; i++) {
             if (arrayConstructions[i][0] == construction) {
-                let nLevels = arrayConstructions[i][2].length;
-                if (arrayConstructions[i][1] < nLevels) {
-                    let valorConstruction = arrayConstructions[i][1] + 1;
+                let nLevels = arrayConstructions[i][3].length;
+                if (arrayConstructions[i][2] < nLevels) {
+                    let valorConstruction = arrayConstructions[i][2] + 1;
                     familiaDB.updateOne({
                             "$set": {
-                                ['construction.' + i + '.1']: valorConstruction
+                                ['construction.' + i + '.2']: valorConstruction
                             }
                         },
                         function(err, raw) {

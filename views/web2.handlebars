@@ -4,7 +4,7 @@
         <li onclick="make({{tiempo}})" class="list-group-item"></li>
     </a>
     <button onclick="updateResource('{{familyId}}', 'silver', 25)">Silver</button>
-    <button id="make" onclick="make({{tiempo}}, '{{familyId}}', 'foundry')">Foundry <span id="time"></span></button>
+    <button id="make" onclick="make({{tiempo}}, '{{familyId}}', 'smithy')">Foundry <span id="time"></span></button>
     <div id="results"></div>
 
 </ul>
@@ -21,7 +21,7 @@
     function updateConstruction(id, construction) {
         $.ajax({
             type: 'PUT',
-            url: `http://localhost:3000/families/updateConstruction/${id}/${construction}`,
+            url: `http://localhost:3000/constructions/updateConstruction/${id}/${construction}`,
             success: function (data) {
                 console.log('success');
             }
