@@ -3,9 +3,10 @@
     <a href="#">
         <li onclick="make({{tiempo}})" class="list-group-item"></li>
     </a>
+
     <button onclick="updateResource('{{familyId}}', 'silver', 25)">Silver</button>
     <button id="make" onclick="make({{tiempo}}, '{{familyId}}', 'smithy')">Foundry <span id="time"></span></button>
-    <div id="results"></div>
+    <div id="respuesta"></div>
 
 </ul>
 <script>
@@ -18,14 +19,24 @@
             }
         });
     }
+
     function updateConstruction(id, construction) {
-        $.ajax({
+        if({{level}} < {{maxLevel}}){
+            $("#make").fadeOut(0);
+            $.ajax({
             type: 'PUT',
             url: `http://localhost:3000/constructions/updateConstruction/${id}/${construction}`,
             success: function (data) {
                 console.log('success');
+            },
+            error: function (request, status, error) {
+                console.log(request.responseText);
             }
+            
         });
+        console.log("nivel maximo")
+        }
+        
     }
 </script>
 <script>
