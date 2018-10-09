@@ -103,7 +103,7 @@ function updateResourcesPerMinute(req, res) {
             });
         });
 };
-setInterval(updateResourcesPerMinute, 10000);
+setInterval(updateResourcesPerMinute, 60000);
 updateResourcesPerMinute();
 
 function getResourcePosition(resource) {
