@@ -31,7 +31,7 @@ process.env.SEED = process.env.SEED || 'este-es-el-seed-desarrollo';
 let urlDB;
 
 if (process.env.NODE_ENV === 'dev') {
-    urlDB = 'mongodb://localhost:27017/cdr';
+    urlDB = 'mongodb://cdr-users:hola7777@ds125683.mlab.com:25683/cdrclase';
 } else {
     urlDB = process.env.MONGO_URI;
 }
