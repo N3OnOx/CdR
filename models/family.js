@@ -9,14 +9,11 @@ var FamilySchema = mongoose.Schema({
     resources: {
         type: Array,
         default: [
-            ["gold", 0],
             ["food", 0],
+            ["wine", 0],
             ["wood", 0],
-            ["steel", 0],
             ["iron", 0],
             ["stone", 0],
-            ["wine", 0],
-            ["poblation", 0]
         ]
     },
 

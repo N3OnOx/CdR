@@ -21,4 +21,50 @@ app.get('/families', (req, res) => {
             });
         })
 });
+
+
+// Desactivar familia temporalmente
+app.put('/families/state/:id', (req, res) => {
+    let id = req.params.id;
+
+    // Buscamos la familia por un id pasado por parametro
+    Family.findById(id, (err, familiaDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!familiaDB) {
+            return res.status(400).json({
+                ok: false,
+                message: 'No existe una familia con ese ID'
+            });
+        }
+
+        // Comprobamos el estado de la familia y lo cambiamos al estado contrario (true o false)
+        if (familiaDB.state === true) {
+            familiaDB.state = false;
+        } else {
+            familiaDB.state = true;
+        }
+
+        // Guardamos el nuevo estado de la familia
+        familiaDB.save(function(err, res) {
+            if (err) {
+                throw new Error(err);
+            }
+        });
+
+        res.status(200).json({
+            ok: true,
+            message: 'Familia actualizada con éxito --> Estado: ' + familiaDB.state
+        });
+    })
+});
+
+
+
+
 module.exports = app;
