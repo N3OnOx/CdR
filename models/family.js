@@ -13,64 +13,106 @@ var FamilySchema = mongoose.Schema({
             ["wine", 0],
             ["wood", 0],
             ["iron", 0],
-            ["stone", 0],
+            ["stone", 0]
+        ]
+    },
+    coins: {
+        type: Array,
+        default: [
+            ["goldenDragon", 0],
+            ["silverDeer", 0],
+            ["copperPenny", 0]
+        ]
+    },
+    army: {
+        type: Array,
+        default: [
+            ["knight", 0],
+            ["mercenary", 0],
+            ["archer", 0],
+            ["crossbowman", 0],
+            ["galley", 0],
+            ["poblation", 0]
         ]
     },
 
     construction: {
         type: Array,
         default: [
-            ["foundry", "steel", 0, [
+            ["foundry", "iron", 1, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
-            ]],
-            ["farm", "food", 0, [
+            ], "resource"],
+            ["farm", "food", 1, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
-            ]],
-            ["sawmill", "wood", 0, [
+            ], "resource"],
+            ["sawmill", "wood", 1, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
-            ]],
+            ], "resource"],
+            ["quarry", "stone", 1, [
+                { benefits: 0, valor: "0" },
+                { benefits: 25, valor: "stone:5;wood:5" },
+                { benefits: 50, valor: "stone:5;wood:5" },
+                { benefits: 75, valor: "stone:5;wood:5" },
+            ], "resource"],
+            ["vineyard", "wine", 1, [
+                { benefits: 0, valor: "0" },
+                { benefits: 25, valor: "stone:5;wood:5" },
+                { benefits: 50, valor: "stone:5;wood:5" },
+                { benefits: 75, valor: "stone:5;wood:5" },
+            ], "resource"],
             ["house", "poblation", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
             ]],
-            ["quarry", "stone", 0, [
+            ["smithy", "armor;sword", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
             ]],
-            ["vineyard", "wine", 0, [
+            ["monastery", "faith", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
             ]],
-            ["smithy", "iron", 0, [
+            ["castle", "knight", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
             ]],
-            ["monastery", "fe", 0, [
+            ["stoneWall", "defense", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
             ]],
-            ["castle", "power", 0, [
+            ["archery", "archer", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
             ]],
-            ["stoneWall", "guard", 0, [
+            ["barracks", "mercenary", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },
             ]],
-            ["archery", "archers", 0, [
+            ["shipyard", "galley", 0, [
+                { benefits: 0, valor: "0" },
                 { benefits: 25, valor: "stone:5;wood:5" },
                 { benefits: 50, valor: "stone:5;wood:5" },
                 { benefits: 75, valor: "stone:5;wood:5" },

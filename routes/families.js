@@ -59,7 +59,7 @@ app.put('/families/state/:id', (req, res) => {
 
         res.status(200).json({
             ok: true,
-            message: 'Familia actualizada con éxito --> Estado: ' + familiaDB.state
+            message: 'Familia actualizada ' + familiaDB.name + ' con éxito --> Estado: ' + familiaDB.state
         });
     })
 });

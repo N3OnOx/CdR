@@ -35,7 +35,7 @@ app.put('/constructions/updateConstruction/:id/:construction', (req, res) => {
             if (arrayConstructions[i][0] == construction) {
 
                 // Recogemos en un array los niveles que tiene esa construccion
-                let nLevels = arrayConstructions[i][3].length;
+                let nLevels = arrayConstructions[i][3].length - 1;
 
                 // Comprobamos si el nivel de la construccion pasada por parametro es menor que el numero maximo de niveles de esa construccion
                 if (arrayConstructions[i][2] < nLevels) {
@@ -120,22 +120,16 @@ app.put('/constructions/updateConstruction/:id/:construction', (req, res) => {
 
 function getResourcePosition(resource) {
     let resourcePosition;
-    if (resource == "gold") {
+    if (resource == "food") {
         resourcePosition = 0;
-    } else if (resource == "food") {
+    } else if (resource == "wine") {
         resourcePosition = 1;
     } else if (resource == "wood") {
         resourcePosition = 2;
-    } else if (resource == "steel") {
-        resourcePosition = 3;
     } else if (resource == "iron") {
-        resourcePosition = 4;
+        resourcePosition = 3;
     } else if (resource == "stone") {
-        resourcePosition = 5;
-    } else if (resource == "wine") {
-        resourcePosition = 6;
-    } else if (resource == "poblation") {
-        resourcePosition = 7;
+        resourcePosition = 4;
     }
     return resourcePosition;
 }
