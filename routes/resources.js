@@ -2,6 +2,29 @@ var express = require('express');
 var Family = require('../models/family');
 const app = express();
 
+// Enviar recursos al cliente
+app.get('/resources/getResources/:id', (req, res) => {
+    let id = req.user.family;
+
+    Family.findById(id, (err, familiaDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!familiaDB) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        let resources = [familiaDB.resources[0][1], familiaDB.resources[1][1], familiaDB.resources[2][1], familiaDB.resources[3][1], familiaDB.resources[4][1]];
+        res.send(resources);
+    });
+});
+
 // Actualizar recurso de una familia
 app.put('/resources/actualizarRecurso/:id/:resource/:quantity', (req, res) => {
     let id = req.params.id;

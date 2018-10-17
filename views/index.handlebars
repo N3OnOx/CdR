@@ -1,2 +1,37 @@
- <h2 class="page-header">Bienvenido {{user.name}}</h2>
-<p>Esta es tu página principal</p>  
+<h2 class="page-header">Bienvenido {{user.name}}</h2>
+<p>Esta es tu página principal. Eres la familia {{familia.name}}</p>
+<div id="recursos"></div>
+<script>
+    function actualizar() {
+        let food = "{{familia.resources.[0].[1]}}";
+        let wine = "{{familia.resources.[1].[1]}}";
+        let wood = "{{familia.resources.[2].[1]}}";
+        let iron = "{{familia.resources.[3].[1]}}";
+        let stone = "{{familia.resources.[4].[1]}}";
+        document.getElementById("recursos").innerHTML += "<h1>Comida: " + food + "</h1>";
+        document.getElementById("recursos").innerHTML += "<h1>Vino: " + wine + "</h1>";
+        document.getElementById("recursos").innerHTML += "<h1>Madera: " + wood + "</h1>";
+        document.getElementById("recursos").innerHTML += "<h1>Hierro: " + iron + "</h1>";
+        document.getElementById("recursos").innerHTML += "<h1>Piedra: " + stone + "</h1>";
+    }
+    console.log(familyName);
+    
+    }
+    function do (){
+        $(document).ready(function () {
+            setInterval(function () {
+                let id = "{{familia.name}}";
+                console.log(id)
+                function getResources(id) {
+                    $.ajax({
+                        type: 'GET',
+                        url: `http://localhost:3000/resources/getResources/${id}`,
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    });
+                }, 1000);
+        });
+    } 
+    do();
+</script>

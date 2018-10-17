@@ -4,9 +4,27 @@ var Family = require('../models/family')
 
 // Homepage
 router.get('/', ensureAuthenticated, function(req, res) {
-    res.render('index', {
-        username: req.user.username
+    let id = req.user.family;
+    Family.findById(id, (err, familiaDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!familiaDB) {
+            return res.status(400).json({
+                ok: false,
+                message: 'No existe familia en la bbdd'
+            });
+        }
+        res.render('index', {
+            username: req.user.username,
+            familia: familiaDB
+        });
     });
+
 });
 
 // Web2 Page
