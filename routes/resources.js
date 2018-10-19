@@ -4,7 +4,7 @@ const app = express();
 
 // Enviar recursos al cliente
 app.get('/resources/getResources/:id', (req, res) => {
-    let id = req.user.family;
+    let id = req.params.id;
 
     Family.findById(id, (err, familiaDB) => {
         if (err) {
@@ -17,7 +17,7 @@ app.get('/resources/getResources/:id', (req, res) => {
         if (!familiaDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                message: 'No existe la familia'
             });
         }
         let resources = [familiaDB.resources[0][1], familiaDB.resources[1][1], familiaDB.resources[2][1], familiaDB.resources[3][1], familiaDB.resources[4][1]];

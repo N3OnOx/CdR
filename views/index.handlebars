@@ -1,37 +1,36 @@
 <h2 class="page-header">Bienvenido {{user.name}}</h2>
 <p>Esta es tu página principal. Eres la familia {{familia.name}}</p>
-<div id="recursos"></div>
+<div id="recursos">
+    <span id="food"></span>
+    <span id="wine"></span>
+    <span id="wood"></span>
+    <span id="iron"></span>
+    <span id="stone"></span>
+</div>
+
 <script>
+    //////////////////////////////////////////////////////
+    // Recursos de la persona
+    //////////////////////////////////////////////////////
+    let id = "{{familia._id}}";
+    actualizar();
+
     function actualizar() {
-        let food = "{{familia.resources.[0].[1]}}";
-        let wine = "{{familia.resources.[1].[1]}}";
-        let wood = "{{familia.resources.[2].[1]}}";
-        let iron = "{{familia.resources.[3].[1]}}";
-        let stone = "{{familia.resources.[4].[1]}}";
-        document.getElementById("recursos").innerHTML += "<h1>Comida: " + food + "</h1>";
-        document.getElementById("recursos").innerHTML += "<h1>Vino: " + wine + "</h1>";
-        document.getElementById("recursos").innerHTML += "<h1>Madera: " + wood + "</h1>";
-        document.getElementById("recursos").innerHTML += "<h1>Hierro: " + iron + "</h1>";
-        document.getElementById("recursos").innerHTML += "<h1>Piedra: " + stone + "</h1>";
-    }
-    console.log(familyName);
-    
-    }
-    function do (){
         $(document).ready(function () {
-            setInterval(function () {
-                let id = "{{familia.name}}";
-                console.log(id)
-                function getResources(id) {
-                    $.ajax({
-                        type: 'GET',
-                        url: `http://localhost:3000/resources/getResources/${id}`,
-                        success: function (data) {
-                            console.log(data);
-                        }
-                    });
-                }, 1000);
+            $.get(`http://localhost:3000/resources/getResources/${id}`, function (data, status) {
+                let food = data[0];
+                let wine = data[1];
+                let wood = data[2];
+                let iron = data[3];
+                let stone = data[4];
+                document.getElementById("food").innerHTML = "<h1>Comida: " + food + "</h1>";
+                document.getElementById("wine").innerHTML = "<h1>Vino: " + wine + "</h1>";
+                document.getElementById("wood").innerHTML = "<h1>Madera: " + wood + "</h1>";
+                document.getElementById("iron").innerHTML = "<h1>Hierro: " + iron + "</h1>";
+                document.getElementById("stone").innerHTML = "<h1>Piedra: " + stone + "</h1>";
+            });
         });
-    } 
-    do();
+    }
+    // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
+    setInterval(actualizar, 1000);
 </script>

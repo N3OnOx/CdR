@@ -26,16 +26,6 @@
 
 </ul>
 <script>
-    function getResources(id) {
-        $.ajax({
-            type: 'GET',
-            url: `http://localhost:3000/resources/getResources/${id}`,
-            success: function (data) {
-                console.log('success');
-            }
-        });
-    }
-
     function updateResource(id, resource, quantity) {
         $.ajax({
             type: 'PUT',
