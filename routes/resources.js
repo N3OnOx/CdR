@@ -2,7 +2,9 @@ var express = require('express');
 var Family = require('../models/family');
 const app = express();
 
+////////////////////////////////////
 // Enviar recursos al cliente
+////////////////////////////////////
 app.get('/resources/getResources/:id', (req, res) => {
     let id = req.params.id;
 
@@ -25,7 +27,9 @@ app.get('/resources/getResources/:id', (req, res) => {
     });
 });
 
+//////////////////////////////////////
 // Actualizar recurso de una familia
+//////////////////////////////////////
 app.put('/resources/actualizarRecurso/:id/:resource/:quantity', (req, res) => {
     let id = req.params.id;
     let resource = req.params.resource;
@@ -65,6 +69,9 @@ app.put('/resources/actualizarRecurso/:id/:resource/:quantity', (req, res) => {
     });
 });
 
+//////////////////////////////////////////////////////
+// Actualizar automaticamente los recursos por minuto
+//////////////////////////////////////////////////////
 function updateResourcesPerMinute(req, res) {
     Family.find({})
         .populate('user')
@@ -131,6 +138,10 @@ function updateResourcesPerMinute(req, res) {
 setInterval(updateResourcesPerMinute, 60000);
 updateResourcesPerMinute();
 
+
+///////////////////////////////////////////////////
+// Obtener la posicion de un recurso en el array
+///////////////////////////////////////////////////
 function getResourcePosition(resource) {
     let resourcePosition;
     if (resource == "food") {
