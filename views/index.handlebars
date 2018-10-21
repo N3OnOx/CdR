@@ -1,4 +1,4 @@
-<h2 class="page-header">Bienvenido {{user.name}}</h2>
+<!--<h2 class="page-header">Bienvenido {{user.name}}</h2>
 <p>Esta es tu página principal. Eres la familia {{familia.name}}</p>
 <div id="recursos">
     <span id="food"></span>
@@ -6,11 +6,28 @@
     <span id="wood"></span>
     <span id="iron"></span>
     <span id="stone"></span>
-</div>
+</div>-->
+<main role="main">
+    <p id="time"></p>
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row" id="constructions">
+            <div class="col-md-12">
+                <h2>Heading</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
+                    mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
+                    mollis euismod. Donec sed odio dui. </p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                <hr class="my-4">
+            </div>
+        </div> <!-- /container -->
+
+</main>
 
 <script>
+    /*
     //////////////////////////////////////////////////////
-    // Recursos de la persona
+    // Recursos de la familia
     //////////////////////////////////////////////////////
     let id = "{{familia._id}}";
     actualizar();
@@ -32,5 +49,106 @@
         });
     }
     // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
-    setInterval(actualizar, 1000);
+    setInterval(actualizar, 1000);*/
+
+    function updateConstruction(id, construction) {
+
+        $.ajax({
+            type: 'PUT',
+            url: `http://localhost:3000/constructions/updateConstruction/${id}/${construction}`,
+            success: function (data) {
+                location.reload();
+            },
+            error: function (request, status, error) {
+                console.log(request.responseText);
+            }
+        });
+    }
+    //////////////////////////////////////////////////////
+    // Construcciones de la familia
+    //////////////////////////////////////////////////////
+
+    $(document).ready(function () {
+        let id = "{{familia._id}}";
+        let divConstructions = $('#constructions');
+        let html = '';
+        $.get(`http://localhost:3000/resources/getConstructions/${id}`, function (data, status) {
+            for (var i = 0; i < data.length; i++) {
+                let value;
+                if (data[i][2] < data[i][6]) {
+                    value = data[i][4].split(';');
+                }
+
+                html += '<div class=\"col-md-12\" id=\"' + data[i][0] + '\">';
+                html += '<h2>' + data[i][0] + '</h2>';
+                html += '<p>' + data[i][1] + '</p>';
+                if (data[i][2] < data[i][6]) {
+                    html += '<p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
+                    html += '<p><a class=\"btn btn-secondary\" href=\"#\" onclick=\"updateConstruction(\'{{familia._id}}\',\'' + data[i][0] + '\')\" role=\"button\">Subir a nivel ' + (data[i][2] + 1) + '<span id="time'+data[i][0]+'"></span></a></p>';
+                }
+                html += '<hr class=\"my-4\">';
+                html += '</div>';
+
+            }
+            divConstructions.html(html);
+        });
+    });
+
+</script>
+<script>
+    var seconds = 60000;
+    // Multiplicar por 1000 porque Date() trabaja con milisegundos
+    var date = new Date(seconds * 1000);
+    var hh = date.getUTCHours();
+    var mm = date.getUTCMinutes();
+    var ss = date.getSeconds();
+
+    var dd = 0;
+    dd = Math.trunc(seconds / 86400);
+    
+
+    // Poner dos dígitos
+    if (dd < 10) { dd = "0" + dd; }
+    if (hh < 10) { hh = "0" + hh; }
+    if (mm < 10) { mm = "0" + mm; }
+    if (ss < 10) { ss = "0" + ss; }
+    // Formatear a HH:MM:SS
+    var t = dd + ":" + hh + ":" + mm + ":" + ss;
+    console.log(t);
+    //document.getElementById("timebarracks").innerHTML = t;
+
+    function make(tiempo, id, construction) {
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            intervalid = setInterval(function () {
+                var date = new Date(timer * 1000);
+                var hh = date.getUTCHours();
+                var mm = date.getUTCMinutes();
+                var ss = date.getSeconds();
+                var dd = Math.trunc(timer / 86400);
+                console.log(dd);
+
+
+                if (dd < 10) { dd = "0" + dd; }
+                if (hh < 10) { hh = "0" + hh; }
+                if (mm < 10) { mm = "0" + mm; }
+                if (ss < 10) { ss = "0" + ss; }
+                // This formats your string to HH:MM:SS
+                var t = dd + ":" + hh + ":" + mm + ":" + ss;
+
+                display.textContent = t;
+                if (--timer < 0) {
+                    clearInterval(intervalid);
+                    $("#time").fadeOut(0);
+                    console.log(id);
+                    console.log(construction);
+                    updateConstruction(id, construction);
+                }
+            }, 1000);
+        }
+
+        display = document.querySelector('#time');
+        startTimer(tiempo, display);
+
+    }
 </script>

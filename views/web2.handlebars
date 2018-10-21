@@ -1,3 +1,4 @@
+
 <h2 class="page-header">Construir</h2>
 <ul class="list-group">
     <a href="#">
@@ -5,39 +6,14 @@
     </a>
 
     <button onclick="updateResource('{{familyId}}', 'silver', 25)">Silver</button>
-    <button id="make" onclick="make({{tiempo}}, '{{familyId}}', 'smithy')">Foundry <span id="time"></span></button>
+    <button id="make" onclick="make({{tiempo}}, '{{familyId}}', 'barracks')">Foundry <span id="time"></span></button>
     <div id="respuesta"></div>
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <div><span id="image_coords_click"></span><span id="image_coords_now"> </span></div>
-    <img id="image" src="/images/mapa.png" width="500" height="500">
-    <script type="text/javascript">
-        $('#image').mousemove(function (event) {
-            window.current_x = Math.round(event.pageX - $('#image').offset().left);
-            window.current_y = Math.round(event.pageY - $('#image').offset().top);
-            window.current_coords = window.current_x + ', ' + window.current_y;
-            $('#image_coords_now').html('Current: ' + window.current_coords + '.');
-        }).mouseleave(function () {
-            $('#image_coords_now').html(' ');
-        }).click(function () {
-            $('#image_coords_click').html('Last click: ' + window.current_coords + '. ');
-        });
-    </script>
 
 </ul>
 <script>
-    function updateResource(id, resource, quantity) {
-        $.ajax({
-            type: 'PUT',
-            url: `http://localhost:3000/families/actualizarRecurso/${id}/${resource}/${quantity}`,
-            success: function (data) {
-                console.log('success');
-            }
-        });
-    }
 
     function updateConstruction(id, construction) {
-        
+
         $("#make").fadeOut(0);
         $.ajax({
             type: 'PUT',
@@ -53,7 +29,6 @@
         console.log("nivel maximo")
     }
         
-    }
 </script>
 <script>
     var seconds = {{ tiempo }};
@@ -74,7 +49,7 @@
     if (ss < 10) { ss = "0" + ss; }
     // Formatear a HH:MM:SS
     var t = dd + ":" + hh + ":" + mm + ":" + ss;
-    document.getElementById("time").innerHTML = t;
+    //document.getElementById("time").innerHTML = t;
 
     function make(tiempo, id, construction) {
         function startTimer(duration, display) {
@@ -95,10 +70,10 @@
                 // This formats your string to HH:MM:SS
                 var t = dd + ":" + hh + ":" + mm + ":" + ss;
 
-                display.textContent = t;
+                //display.textContent = t;
                 if (--timer < 0) {
                     clearInterval(intervalid);
-                    $("#time").fadeOut(0);
+                    //$("#time").fadeOut(0);
                     console.log(id);
                     console.log(construction);
                     updateConstruction(id, construction);
@@ -106,7 +81,7 @@
             }, 1000);
         }
 
-        display = document.querySelector('#time');
+        //display = document.querySelector('#time');
         startTimer(tiempo, display);
 
     }

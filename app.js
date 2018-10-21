@@ -33,7 +33,7 @@ var users = require('./routes/users');
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({ defaultLayout: 'prueba' }));
+app.engine('handlebars', exphbs({ defaultLayout: 'layoutCdR' }));
 app.set('view engine', 'handlebars');
 
 // BodyParser Middleware
