@@ -115,12 +115,30 @@ app.put('/constructions/updateConstruction/:id/:construction', (req, res) => {
                         console.log(check);
                     }
                     if (check) {
-                        let dateTime = Date.now();
                         let time;
-                        dateTime += familiaDB.construction[i][3][familiaDB.construction[i][2]].time;;
-                        time = familiaDB.construction[i][3][familiaDB.construction[i][2]].time;
-                        dateTime = new Date(dateTime);
-                        console.log(dateTime);
+                        do {
+                            Family.findById(id, (err, familiaDB) => {
+                                console.log("estoy aqui")
+                                if (err) {
+                                    return res.status(500).json({
+                                        ok: false,
+                                        err
+                                    });
+                                }
+
+                                if (!familiaDB) {
+                                    return res.status(400).json({
+                                        ok: false,
+                                        err
+                                    });
+                                }
+                                time = familiaDB.construction[i][3][familiaDB.construction[i][2]].time;
+                                console.log(time);
+                            });
+                        } while (time < 0 || time == null);
+                        console.log(time);
+                        time = [time];
+                        res.send(time);
 
                         for (var k = 0; k < arrayValueConstruction.length; k++) {
                             let objeto = arrayValueConstruction[k].split(":");
@@ -140,7 +158,7 @@ app.put('/constructions/updateConstruction/:id/:construction', (req, res) => {
                             );
                         }
 
-
+                        console.log(time);
                         setTimeoutPromise(time, i).then((i) => {
                             let newLevelConstruction = familiaDB.construction[i][2] + 1;
                             familiaDB.updateOne({
@@ -154,11 +172,6 @@ app.put('/constructions/updateConstruction/:id/:construction', (req, res) => {
                                 }
                             );
                             console.log('Familia actualizada con éxito');
-                            res.status(200).json({
-                                ok: true,
-                                message: 'Familia actualizada con éxito'
-                            });
-
                         });
                     } else {
                         res.status(500).json({
