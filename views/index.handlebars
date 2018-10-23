@@ -45,60 +45,19 @@
 
 
 
-    function updateConstruction(id, construction) {
+    function updateConstruction(id, construction, time) {
         $.ajax({
-            type: 'PUT',
-            url: `http://localhost:3000/constructions/updateConstruction/${id}/${construction}`,
+            type: 'POST',
+            url: `http://localhost:3000/constructions/updateConstruction/${id}/${construction}/${time}`,
             success: function (data) {
-                data[0] = data[0] / 1000
-                console.log(data[0]);
-                do {
-                    if (data[0] == 0) {
-                        console.log("Error")
-                    } else {
-                        make(data[0], id, construction);
-                    }
-                } while (data[0] == 0);
-
+                console.log(data);
             },
             error: function (request, status, error) {
                 console.log(request.responseText);
             }
         });
-
-        function make(tiempo, id, construction) {
-            function startTimer(duration, display) {
-                var timer = duration, minutes, seconds;
-                intervalid = setInterval(function () {
-                    var date = new Date(timer * 1000);
-                    var hh = date.getUTCHours();
-                    var mm = date.getUTCMinutes();
-                    var ss = date.getSeconds();
-                    var dd = Math.trunc(timer / 86400);
-
-                    console.log("")
-
-
-                    if (dd < 10) { dd = "0" + dd; }
-                    if (hh < 10) { hh = "0" + hh; }
-                    if (mm < 10) { mm = "0" + mm; }
-                    if (ss < 10) { ss = "0" + ss; }
-                    // This formats your string to HH:MM:SS
-                    var t = dd + ":" + hh + ":" + mm + ":" + ss;
-
-                    display.textContent = "|| " + t;
-                    if (--timer < 0) {
-                        clearInterval(intervalid);
-                        window.location.reload();
-                    }
-                }, 1000);
-            }
-
-            display = document.querySelector(`#time${construction}`);
-            startTimer(tiempo, display);
-
-        }
     }
+
     //////////////////////////////////////////////////////
     // Construcciones de la familia
     //////////////////////////////////////////////////////
@@ -119,7 +78,7 @@
                 html += '<p>' + data[i][1] + '</p>';
                 if (data[i][2] < data[i][6]) {
                     html += '<p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
-                    html += '<p><button class=\"btn btn-secondary\" id=\"' + data[i][0] + '\" onclick=\"this.disabled=true; updateConstruction(\'{{familia._id}}\',\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></button></p>';
+                    html += '<p><button class=\"btn btn-secondary\" id=\"' + data[i][0] + '\" onclick=\"this.disabled=true; updateConstruction(\'{{familia._id}}\',\'' + data[i][0] + '\',\'' + data[i][5] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></button></p>';
                 }
                 html += '<hr class=\"my-4\">';
                 html += '</div>';
