@@ -25,6 +25,10 @@ var db = mongoose.connection;
 
 // Init App
 var app = express();
+var server = app.listen(process.env.PORT, () => {
+    console.log('Listen: ', process.env.PORT);
+});
+module.exports.io = require('socket.io').listen(server);
 
 // Routes
 app.use(require('./routes/routes'));
@@ -88,8 +92,3 @@ app.use(function(req, res, next) {
 // Routes use
 app.use('/', routes);
 app.use('/users', users);
-
-// Listening port
-app.listen(process.env.PORT, () => {
-    console.log('Listen: ', process.env.PORT);
-});

@@ -70,6 +70,12 @@ function updateResourcesPerMinute(req, res) {
         });
 };
 
+function getTimeConstruction(id) {
+    var query = Family.findById(id);
+    console.log(query);
+    return query;
+}
+
 ///////////////////////////////////////////////////
 // Obtener la posicion de un recurso en el array
 ///////////////////////////////////////////////////
@@ -91,5 +97,6 @@ function getResourcePosition(resource) {
 
 module.exports = {
     getResourcePosition,
-    updateResourcesPerMinute
+    updateResourcesPerMinute,
+    getTimeConstruction
 };
