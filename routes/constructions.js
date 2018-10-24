@@ -1,4 +1,4 @@
-let { getResourcePosition, getTimeConstruction } = require('../utilities/utilities');
+let { getResourcePosition } = require('../utilities/utilities');
 let { io } = require('../app');
 var express = require('express');
 var Family = require('../models/family');
@@ -39,8 +39,7 @@ app.get('/resources/getConstructions/:id', (req, res) => {
                 dataConstructions[i][2] = familiaDB.construction[i][2];
                 dataConstructions[i][3] = familiaDB.construction[i][3][familiaDB.construction[i][2]].benefits;
                 dataConstructions[i][4] = familiaDB.construction[i][3][familiaDB.construction[i][2]].valor;
-                dataConstructions[i][5] = familiaDB.construction[i][3][familiaDB.construction[i][2]].time;
-                dataConstructions[i][6] = familiaDB.construction[i][3].length - 1;
+                dataConstructions[i][5] = familiaDB.construction[i][3].length - 1;
             }
         }
         res.send(dataConstructions);
@@ -52,6 +51,9 @@ app.get('/resources/getConstructions/:id', (req, res) => {
 // Actualizar una construccion de una familia 
 //////////////////////////////////////////////
 io.on('connection', function(client) {
+    client.on('bienvenido', function(data) {
+        console.log(data);
+    })
     client.on('message', function(data) {
         console.log('Se va a actualizar --> ' + data.construction);
 
@@ -78,12 +80,12 @@ io.on('connection', function(client) {
 
             // Metemos todas las construcciones de un usuario en un array para trabajar con el.
             let arrayConstructions = familiaDB.construction;
-            console.log(arrayConstructions)
-                // Recorremos construccion por construccion hasta llegar a la construccion pasada por parametro
+            // Recorremos construccion por construccion hasta llegar a la construccion pasada por parametro
+
             for (let i = 0; i < arrayConstructions.length; i++) {
                 // Comparamos si la construccion de la posicion i del array es la construccion pasada por parametro
                 if (arrayConstructions[i][0] == construction) {
-
+                    console.log(familiaDB.construction[i][3][familiaDB.construction[i][2]]);
                     // Recogemos en un array los niveles que tiene esa construccion
                     let nLevels = arrayConstructions[i][3].length - 1;
                     // Comprobamos si el nivel de la construccion pasada por parametro es menor que el numero maximo de niveles de esa construccion
@@ -110,52 +112,47 @@ io.on('connection', function(client) {
                             console.log(check);
                         }
                         if (check) {
-                            var time = arrayConstructions[i][3][familiaDB.construction[i][2]].time;
-                            while (!time > 0) {
-                                console.log('Time incorrecto')
-                                var query = getTimeConstruction(id);
-                                query.exec(function(err, familia) {
-                                    if (err) return console.log(err);
-                                    time = familia.construction[i][3][familiaDB.construction[i][2]].time;
-                                });
+                            var time = familiaDB.construction[i][3][familiaDB.construction[i][2] + 1].time;
+                            if (!time > 0) {
+                                client.emit('time', 0);
+                                break;
+                            } else {
+                                client.emit('time', time);
+                                setTimeout(makeConstruction, time, familiaDB, i);
 
-                                console.log(time);
-                            }
-                            client.emit('time', time);
-                            setTimeout(makeConstruction, time, familiaDB, i);
+                                function makeConstruction() {
+                                    for (var k = 0; k < arrayValueConstruction.length; k++) {
+                                        let objeto = arrayValueConstruction[k].split(":");
+                                        let position = getResourcePosition(objeto[0]);
+                                        let newValue = familiaDB.resources[position][1] - objeto[1];
+                                        console.log('Has restado ' + objeto[1] + ' a ' + objeto[0]);
+                                        familiaDB.updateOne({
+                                                "$set": {
+                                                    ['resources.' + position + '.1']: newValue
+                                                }
+                                            },
+                                            function(err, raw) {
+                                                if (err) return handleError(err);
+                                                //console.log('The raw response from Mongo was ', raw);
+                                                console.log("Recurso " + objeto[0] + " actualizado con éxito");
+                                            }
+                                        );
+                                    }
 
-                            function makeConstruction() {
-                                for (var k = 0; k < arrayValueConstruction.length; k++) {
-                                    let objeto = arrayValueConstruction[k].split(":");
-                                    let position = getResourcePosition(objeto[0]);
-                                    let newValue = familiaDB.resources[position][1] - objeto[1];
-                                    console.log('Has restado ' + objeto[1] + ' a ' + objeto[0]);
+                                    let newLevelConstruction = familiaDB.construction[i][2] + 1;
                                     familiaDB.updateOne({
                                             "$set": {
-                                                ['resources.' + position + '.1']: newValue
+                                                ['construction.' + i + '.2']: newLevelConstruction
                                             }
                                         },
                                         function(err, raw) {
                                             if (err) return handleError(err);
                                             //console.log('The raw response from Mongo was ', raw);
-                                            console.log("Recurso " + objeto[0] + " actualizado con éxito");
                                         }
                                     );
+
+                                    console.log('Familia actualizada con éxito');
                                 }
-
-                                let newLevelConstruction = familiaDB.construction[i][2] + 1;
-                                familiaDB.updateOne({
-                                        "$set": {
-                                            ['construction.' + i + '.2']: newLevelConstruction
-                                        }
-                                    },
-                                    function(err, raw) {
-                                        if (err) return handleError(err);
-                                        //console.log('The raw response from Mongo was ', raw);
-                                    }
-                                );
-
-                                console.log('Familia actualizada con éxito');
                             }
                         } else {
                             console.log('No tienes recursos suficientes');

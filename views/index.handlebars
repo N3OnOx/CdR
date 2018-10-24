@@ -1,14 +1,6 @@
-<!--<h2 class="page-header">Bienvenido {{user.name}}</h2>
+<h2 class="page-header">Bienvenido {{user.name}}</h2>
 <p>Esta es tu página principal. Eres la familia {{familia.name}}</p>
-<div id="recursos">
-    <span id="food"></span>
-    <span id="wine"></span>
-    <span id="wood"></span>
-    <span id="iron"></span>
-    <span id="stone"></span>
-</div>-->
 <main role="main">
-    <button id="poke" class="btn btn-info">Hola</button>
     <div class="container">
         <!-- Example row of columns -->
         <div class="row" id="constructions">
@@ -18,7 +10,7 @@
 </main>
 
 <script>
-    /*
+    
     //////////////////////////////////////////////////////
     // Recursos de la familia
     //////////////////////////////////////////////////////
@@ -33,16 +25,16 @@
                 let wood = data[2];
                 let iron = data[3];
                 let stone = data[4];
-                document.getElementById("food").innerHTML = "<h1>Comida: " + food + "</h1>";
-                document.getElementById("wine").innerHTML = "<h1>Vino: " + wine + "</h1>";
-                document.getElementById("wood").innerHTML = "<h1>Madera: " + wood + "</h1>";
-                document.getElementById("iron").innerHTML = "<h1>Hierro: " + iron + "</h1>";
-                document.getElementById("stone").innerHTML = "<h1>Piedra: " + stone + "</h1>";
+                document.getElementById("food").innerHTML = food;
+                document.getElementById("wine").innerHTML = wine;
+                document.getElementById("wood").innerHTML = wood;
+                document.getElementById("iron").innerHTML = iron;
+                document.getElementById("stone").innerHTML = stone;
             });
         });
     }
     // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
-    setInterval(actualizar, 1000);*/
+    setInterval(actualizar, 1000);
 
 
 
@@ -59,14 +51,14 @@
         $.get(`http://localhost:3000/resources/getConstructions/${id}`, function (data, status) {
             for (var i = 0; i < data.length; i++) {
                 let value;
-                if (data[i][2] < data[i][6]) {
+                if (data[i][2] < data[i][5]) {
                     value = data[i][4].split(';');
                 }
 
                 html += '<div class=\"col-md-12\" id=\"' + data[i][0] + '\">';
                 html += '<h2>' + data[i][0] + '</h2>';
                 html += '<p>' + data[i][1] + '</p>';
-                if (data[i][2] < data[i][6]) {
+                if (data[i][2] < data[i][5]) {
                     html += '<p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
                     html += '<p><button class=\"btn btn-secondary\" id=\"' + data[i][0] + '\" onclick=\"updateConstruction(\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></button></p>';
                 }
@@ -86,12 +78,12 @@
 
     function updateConstruction(construction) {
         let id = "{{familia._id}}";
-
         socket.emit('message', { id: id, construction: construction });
         socket.on('time', function (time) {
             console.log('El server te envia tiempo: ' + time);
             if (time == 0) {
-                console.log("Se perdio la conexion al servidor");
+                console.log("Error en la consulta. Intentandolo de nuevo..");
+                $(construction).trigger('click');
             } else {
                 display = document.querySelector('#time');
                 startTimer(time, display);
