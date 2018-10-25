@@ -1,16 +1,23 @@
-<h2 class="page-header">Bienvenido {{user.name}}</h2>
-<p>Esta es tu página principal. Eres la familia {{familia.name}}</p>
-<main role="main">
-    <div class="container">
-        <!-- Example row of columns -->
-        <div class="row" id="constructions">
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <h2 class="page-header">Bienvenido {{user.name}}</h2>
+        <p>Esta es tu página principal. Eres la familia {{familia.name}}</p>
+    </div>
+    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        <div class="row" id="constructions"></div>
+    </div>
+    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
 
-        </div> <!-- /container -->
+    </div>
+    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
 
-</main>
+    </div>
+</div>
+
+
 
 <script>
-    
+
     //////////////////////////////////////////////////////
     // Recursos de la familia
     //////////////////////////////////////////////////////

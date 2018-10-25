@@ -2,45 +2,70 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Conquista de Reinos</title>
+    <meta charset="UTF-8">
+    <title>Conquista de Reinos</title>
 
-  <script src="/js/jquery-3.3.1.min.js"></script>
-  <script src="/js/popper.min.js"></script>
-  <script src="/bootstrap/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-  
-
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+        crossorigin="anonymous">
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <!-- Brand/logo -->
-    <a class="navbar-brand" href="/"><img width="150" src="/images/corona.png"></a>
+    <nav class="navbar navbar-expand-sm navbarResources">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="/"><img class="imgLogo" src="/images/corona.png"></a>
 
-    <!-- Links -->
-    {{#if user}}
-    <ul class="navbar-nav resources">
-      
-      <li class="nav-item"><h2 class="resourcesMenu"><i class="fas fa-utensils"></i> <span id="food"></span></h2></li>
-      <li class="nav-item"><h2 class="resourcesMenu"><i style="color: #5e2129;" class="fas fa-wine-glass-alt"></i> <span id="wine"></span></h2></li>
-      <li class="nav-item"><h2 class="resourcesMenu"><i class="fas fa-tree"></i> <span id="wood"></span></h2></li>
-      <li class="nav-item"><h2 class="resourcesMenu"><i class="fas fa-mountain"></i> <span id="stone"></span></h2></li>
-      <li class="nav-item"><h2 class="resourcesMenu"><i class="fas fa-hammer"></i> <span id="iron"></span></h2></li>
-      <li class="nav-item"><h2 class="resourcesMenu"><i style="color: #ffd700;" class="fas fa-coins"></i> <span id="gold">0</span></h2></li>
-      
-    </ul>
-    <a class="nav-link" href="/users/logout"><span style="color:white;" class="fas fa-sign-out-alt fa-2x"></span></a>
-    {{/if}}
-  </nav>
+        <!-- Links -->
+        {{#if user}}
+        <ul class="navbar-nav resources">
 
-  {{{body}}}
+            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-utensils"></i> <span id="food"></span></span></li>
+            <li class="nav-item"><span class="resourcesMenu"><i style="color: #5e2129;" class="fas fa-wine-glass-alt"></i>
+                    <span id="wine"></span></span></li>
+            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-tree"></i> <span id="wood"></span></span></li>
+            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-mountain"></i> <span id="stone"></span></span></li>
+            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-hammer"></i> <span id="iron"></span></span></li>
+            <li class="nav-item"><span class="resourcesMenu"><i style="color: #ffd700;" class="fas fa-coins"></i> <span
+                        id="gold">0</span></span></li>
 
-  <footer class="container">
-    <p>&copy; Company 2017-2018</p>
-  </footer>
+        </ul>
+        <a class="nav-link" href="/users/logout"><span class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
+        {{/if}}
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="nav flex-column nav-pills menu" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                        aria-controls="v-pills-home" aria-selected="true">Vision General</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+                        aria-controls="v-pills-profile" aria-selected="false">Edificios</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+                        aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
+                        aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                </div>
+
+            </div>
+            <div class="col-md-8 m1-md-auto cuerpo">
+                {{{body}}}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid clear footer">
+        <div class="row">
+            <div class="col-md-12">
+                <footer>
+                    <p>&copy; ASJ 2018</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
 
 </body>
 

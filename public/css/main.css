@@ -1,16 +1,57 @@
-.resourcesMenu {
+.body {
+    background-color: darkgreen;
+}
+
+.menu {
+    margin-top: 50px;
+    margin-left: 5px;
+    border: 2px double black;
+    text-align: center;
+    background-color: aquamarine;
+}
+
+.cuerpo {
+    margin-top: 5px;
+    margin: 0 auto;
+    margin-top: 50px;
+    color: whitesmoke;
+    background-color: crimson;
+}
+
+.imgLogo {
+    max-width: 150px;
+    width: 100%;
+    margin-left: 50%;
+}
+
+.iconLogOut {
     color: white;
+}
+
+.resourcesMenu {
+    color: black;
+    padding: 10px;
+    font-size: 1.3em;
+}
+
+.navbarResources {
+    background-color: #5e2129;
 }
 
 .resources {
     background-color: bisque;
     color: black;
-    border: double 2px white;
+    border: double 2px bisque;
     border-radius: 5px;
     margin: 0 auto;
 }
 
-.resources li h2 {
-    padding: 15px;
-    color: black;
+.clear {
+    clear: both;
+}
+
+.footer {
+    background-color: black;
+    margin-top: 5%;
+    color: white;
 }
