@@ -27,12 +27,10 @@ router.get('/', ensureAuthenticated, function(req, res) {
 
 });
 
-// Web2 Page
-router.get('/web2', ensureAuthenticated, function(req, res) {
-
+// Homepage
+router.get('/edificios', ensureAuthenticated, function(req, res) {
     let id = req.user.family;
     Family.findById(id, (err, familiaDB) => {
-
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -46,16 +44,14 @@ router.get('/web2', ensureAuthenticated, function(req, res) {
                 message: 'No existe familia en la bbdd'
             });
         }
-        let nivel = familiaDB.construction[0][3].length;
-        res.render('web2', {
-            tiempo: 10,
-            familyId: req.user.family,
-            maxLevel: nivel,
-            level: familiaDB.construction[0][2]
+        res.render('partials/edificios', {
+            username: req.user.username,
+            familia: familiaDB
         });
     });
 
 });
+
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

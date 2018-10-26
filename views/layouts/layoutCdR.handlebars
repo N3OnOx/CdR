@@ -36,29 +36,27 @@
         <a class="nav-link" href="/users/logout"><span class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
         {{/if}}
     </nav>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2">
-                <div class="nav flex-column nav-pills menu" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
-                        aria-controls="v-pills-home" aria-selected="true">Vision General</a>
-                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-                        aria-controls="v-pills-profile" aria-selected="false">Edificios</a>
-                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
-                        aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
-                        aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+    <div id="cont">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2">
+                    <div class="flex-column nav-pills menu" aria-orientation="vertical">
+                        <a href="/">Vision General</a>
+                        <a class="nav-link" href="/edificios">Edificios</a>
+                        <a class="nav-link" href="/">Messages</a>
+                        <a class="nav-link" href="/">Settings</a>
+                        <a class="nav-link" href="/">Vision General</a>
+                    </div>
                 </div>
-
-            </div>
-            <div class="col-md-8 m1-md-auto cuerpo">
-                {{{body}}}
+                <div class="col-md-8 m1-md-auto cuerpo">
+                    {{{body}}}
+                </div>
             </div>
         </div>
     </div>
     <div class="container-fluid clear footer">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-12">
                 <footer>
                     <p>&copy; ASJ 2018</p>
                 </footer>
@@ -67,6 +65,32 @@
     </div>
 
 
+    <script>
+        //////////////////////////////////////////////////////
+        // Recursos de la familia
+        //////////////////////////////////////////////////////
+        let id = "{{familia._id}}";
+        actualizar();
+
+        function actualizar() {
+            $(document).ready(function () {
+                $.get(`http://localhost:3000/resources/getResources/${id}`, function (data, status) {
+                    let food = data[0];
+                    let wine = data[1];
+                    let wood = data[2];
+                    let iron = data[3];
+                    let stone = data[4];
+                    document.getElementById("food").innerHTML = food;
+                    document.getElementById("wine").innerHTML = wine;
+                    document.getElementById("wood").innerHTML = wood;
+                    document.getElementById("iron").innerHTML = iron;
+                    document.getElementById("stone").innerHTML = stone;
+                });
+            });
+        }
+        // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
+        setInterval(actualizar, 1000);
+    </script>
 </body>
 
 </html>
