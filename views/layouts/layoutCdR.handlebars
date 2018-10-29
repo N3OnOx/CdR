@@ -40,7 +40,6 @@
                     </ul>
                     {{/if}}
                 </div>
-
             </nav>
         </div>
     </div>
@@ -51,7 +50,7 @@
             <div class="row">
                 {{#if user}}
                 <div class="col-2">
-                    <div class="menu" >
+                    <div class="menu">
                         <a class="btn btn-block btn-sm btn-outline-info" href="/">Vision General</a>
                         <a class="btn btn-block btn-sm btn-outline-info" href="/edificios">Edificios</a>
                         <a class="btn btn-block btn-sm btn-outline-info" href="/">Tropas</a>
@@ -70,7 +69,8 @@
                         <a class="btn btn-block btn-sm btn-outline-info" href="/">Foro</a>
                         <a class="btn btn-block btn-sm btn-outline-info" href="/">Normativa</a>
                         <a class="btn btn-block btn-sm btn-outline-info" href="/">Configuración</a>
-                        <a class="btn btn-block btn-sm btn-outline-danger" href="/users/logout">Cerrar sesión <span class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
+                        <a class="btn btn-block btn-sm btn-outline-danger" href="/users/logout">Cerrar sesión <span
+                                class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
                     </div>
                 </div>
                 {{/if}}
@@ -89,35 +89,7 @@
                 </footer>
             </div>
         </div>
-    </div>
-
-
-    <script>
-        //////////////////////////////////////////////////////
-        // Recursos de la familia
-        //////////////////////////////////////////////////////
-        let id = "{{familia._id}}";
-        actualizar();
-
-        function actualizar() {
-            $(document).ready(function () {
-                $.get(`http://localhost:3000/resources/getResources/${id}`, function (data, status) {
-                    let food = data[0];
-                    let wine = data[1];
-                    let wood = data[2];
-                    let iron = data[3];
-                    let stone = data[4];
-                    document.getElementById("food").innerHTML = food;
-                    document.getElementById("wine").innerHTML = wine;
-                    document.getElementById("wood").innerHTML = wood;
-                    document.getElementById("iron").innerHTML = iron;
-                    document.getElementById("stone").innerHTML = stone;
-                });
-            });
-        }
-        // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
-        setInterval(actualizar, 1000);
-    </script>
+    </div>    
 </body>
 
 </html>

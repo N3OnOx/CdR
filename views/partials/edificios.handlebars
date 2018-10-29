@@ -1,8 +1,35 @@
-<ul id="constructions" class="list-group list-group-flush">
-
-</ul>
+<ul id="constructions" class="list-group list-group-flush"></ul>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script>
+
+    //////////////////////////////////////////////////////
+    // Recursos de la familia
+    //////////////////////////////////////////////////////
+    let id = "{{familia._id}}";
+    actualizar();
+
+    function actualizar() {
+        $(document).ready(function () {
+            var socket = io();
+            socket.emit('resources', { id: id });
+            socket.on('resources', function (data) {
+                let food = data[0];
+                let wine = data[1];
+                let wood = data[2];
+                let iron = data[3];
+                let stone = data[4];
+                document.getElementById("food").innerHTML = food;
+                document.getElementById("wine").innerHTML = wine;
+                document.getElementById("wood").innerHTML = wood;
+                document.getElementById("iron").innerHTML = iron;
+                document.getElementById("stone").innerHTML = stone;
+            });
+        });
+    }
+    // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
+    setInterval(actualizar, 1000);
+</script>
 <script>
     //////////////////////////////////////////////////////
     // Construcciones de la familia
@@ -13,7 +40,7 @@
         let divConstructions = $('#constructions');
         let html = '';
         var socket = io();
-        socket.emit('constructions', {id: id})
+        socket.emit('constructions', { id: id })
         socket.on('constructions', function (data) {
             for (var i = 0; i < data.length; i++) {
                 let value;
@@ -78,7 +105,5 @@
                 }
             }
         });
-
     }
-
 </script>

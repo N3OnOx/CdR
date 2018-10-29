@@ -11,9 +11,6 @@ const app = express();
 /////////////////////////////////////////////
 
 io.on('connection', function(client) {
-    client.on('bienvenido', function(data) {
-        console.log(data);
-    })
     client.on('constructions', function(data) {
         let id = data.id;
 
@@ -51,9 +48,6 @@ io.on('connection', function(client) {
 // Actualizar una construccion de una familia 
 //////////////////////////////////////////////
 io.on('connection', function(client) {
-    client.on('bienvenido', function(data) {
-        console.log(data);
-    })
     client.on('message', function(data) {
         console.log('Se va a actualizar --> ' + data.construction);
 
