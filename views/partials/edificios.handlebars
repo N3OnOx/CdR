@@ -1,35 +1,7 @@
 <ul id="constructions" class="list-group list-group-flush"></ul>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-<script>
 
-    //////////////////////////////////////////////////////
-    // Recursos de la familia
-    //////////////////////////////////////////////////////
-    let id = "{{familia._id}}";
-    actualizar();
-
-    function actualizar() {
-        $(document).ready(function () {
-            var socket = io();
-            socket.emit('resources', { id: id });
-            socket.on('resources', function (data) {
-                let food = data[0];
-                let wine = data[1];
-                let wood = data[2];
-                let iron = data[3];
-                let stone = data[4];
-                document.getElementById("food").innerHTML = food;
-                document.getElementById("wine").innerHTML = wine;
-                document.getElementById("wood").innerHTML = wood;
-                document.getElementById("iron").innerHTML = iron;
-                document.getElementById("stone").innerHTML = stone;
-            });
-        });
-    }
-    // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
-    setInterval(actualizar, 1000);
-</script>
 <script>
     //////////////////////////////////////////////////////
     // Construcciones de la familia
@@ -52,7 +24,7 @@
                 html += '       <p>Description of ' + data[i][0] + '</p>';
                 if (data[i][2] < data[i][5]) {
                     html += '   <p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
-                    html += '   <a class=\"btn btn-primary\" id=\"' + data[i][0] + '\" onclick=\"updateConstruction(\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></a>';
+                    html += '   <a class=\"btn updateConstructionButton\" id=\"' + data[i][0] + '\" onclick=\"updateConstruction(\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></a>';
                 }
                 html += '   </li>';
 

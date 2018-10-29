@@ -17,7 +17,7 @@
 <body>
     <div class="container-fluid">
         <div class="row ">
-            <nav class="navbar navbar-expand-sm navbarResources" style="width: 100%;">
+            <nav class="navbar navbar-expand-sm mainNavbar">
                 <div class="col-3">
                     <!-- Brand/logo -->
                     <a class="navbar-brand" href="/"><img class="imgLogo" src="/images/corona.png"></a>
@@ -51,25 +51,25 @@
                 {{#if user}}
                 <div class="col-2">
                     <div class="menu">
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Vision General</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/edificios">Edificios</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Tropas</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Entrenamiento</a>
-                        <a class="btn btn-block btn-sm btn-outline-success" href="/">Mapa</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Estadisticas</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Alianza</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Recursos</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Casas</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Misiones</a>
-                        <a class="btn btn-block btn-sm btn-outline-warning" href="/">Mensajes</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Clasificaciones</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Amigos</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Estadisticas Globales</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Chat</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Foro</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Normativa</a>
-                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Configuración</a>
-                        <a class="btn btn-block btn-sm btn-outline-danger" href="/users/logout">Cerrar sesión <span
+                        <a class="btn btn-block  " href="/">Vision General</a>
+                        <a class="btn btn-block  " href="/edificios">Edificios</a>
+                        <a class="btn btn-block  " href="/">Tropas</a>
+                        <a class="btn btn-block  " href="/">Entrenamiento</a>
+                        <a class="btn btn-block  " href="/">Mapa</a>
+                        <a class="btn btn-block  " href="/">Estadisticas</a>
+                        <a class="btn btn-block  " href="/">Alianza</a>
+                        <a class="btn btn-block  " href="/">Recursos</a>
+                        <a class="btn btn-block  " href="/">Casas</a>
+                        <a class="btn btn-block  " href="/">Misiones</a>
+                        <a class="btn btn-block  " href="/">Mensajes</a>
+                        <a class="btn btn-block  " href="/">Clasificaciones</a>
+                        <a class="btn btn-block  " href="/">Amigos</a>
+                        <a class="btn btn-block  " href="/">Estadisticas Globales</a>
+                        <a class="btn btn-block  " href="/">Chat</a>
+                        <a class="btn btn-block  " href="/">Foro</a>
+                        <a class="btn btn-block  " href="/">Normativa</a>
+                        <a class="btn btn-block  " href="/">Configuración</a>
+                        <a class="btn btn-block  " href="/users/logout">Cerrar sesión <span
                                 class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
                     </div>
                 </div>
@@ -89,7 +89,38 @@
                 </footer>
             </div>
         </div>
-    </div>    
-</body>
+    </div>
+    {{#if user}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script>
 
+    //////////////////////////////////////////////////////
+    // Recursos de la familia
+    //////////////////////////////////////////////////////
+    let id = "{{familia._id}}";
+    actualizar();
+
+    function actualizar() {
+        $(document).ready(function () {
+            var socket = io();
+            socket.emit('resources', { id: id });
+            socket.on('resources', function (data) {
+                let food = data[0];
+                let wine = data[1];
+                let wood = data[2];
+                let iron = data[3];
+                let stone = data[4];
+                document.getElementById("food").innerHTML = food;
+                document.getElementById("wine").innerHTML = wine;
+                document.getElementById("wood").innerHTML = wood;
+                document.getElementById("iron").innerHTML = iron;
+                document.getElementById("stone").innerHTML = stone;
+            });
+        });
+    }
+    // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
+    setInterval(actualizar, 1000);
+</script>    
+{{/if}}
+</body>
 </html>

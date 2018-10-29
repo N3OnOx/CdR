@@ -33,7 +33,7 @@ io.on('connection', function(client) {
                     dataConstructions[i][0] = familiaDB.construction[i][0];
                     dataConstructions[i][1] = familiaDB.construction[i][1];
                     dataConstructions[i][2] = familiaDB.construction[i][2];
-                    dataConstructions[i][3] = familiaDB.construction[i][3][familiaDB.construction[i][2]].benefits;
+                    dataConstructions[i][3] = familiaDB.construction[i][3][familiaDB.construction[i][2] + 1].benefits;
                     dataConstructions[i][4] = familiaDB.construction[i][3][familiaDB.construction[i][2]].valor;
                     dataConstructions[i][5] = familiaDB.construction[i][3].length - 1;
                 }

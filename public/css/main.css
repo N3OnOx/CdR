@@ -2,17 +2,16 @@
     margin: 2% 10% 2% 10%;
 }
 
-#constructions .card {
-    margin: 5px;
-}
-
 .menu {
-    text-align: left;
-    width: 100%;
+    background-color: bisque;
+    border-style: double;
 }
 
 .menu a {
+    color: black;
+    text-align: center;
     margin: 5px;
+    font-weight: bold;
 }
 
 .cuerpo {
@@ -40,23 +39,29 @@
     align-items: center;
 }
 
-.resourcesMenu {
-    color: black;
-    padding: 10px;
-    font-size: 1em;
-}
-
-.navbarResources {
-    background-color: #5e2129;
-    margin: 0 auto;
-}
-
 .resources li {
     background-color: bisque;
     color: black;
     border: double 2px bisque;
     border-radius: 5px;
     margin: 5px;
+}
+
+.resourcesMenu {
+    color: black;
+    padding: 10px;
+    font-size: 1em;
+}
+
+.mainNavbar {
+    background-color: #5e2129;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#constructions li a {
+    color: white;
+    background-color: #5e2129;
 }
 
 .clear {
