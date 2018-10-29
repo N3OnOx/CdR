@@ -1,46 +1,62 @@
-.body {
-    background-color: darkgreen;
-}
-
 #cont {
     margin: 2% 10% 2% 10%;
 }
 
+#constructions .card {
+    margin: 5px;
+}
+
 .menu {
-    border: 1px solid black;
-    text-align: center;
+    text-align: left;
+    width: 100%;
+}
+
+.menu a {
+    margin: 5px;
 }
 
 .cuerpo {
     margin: 0 auto;
 }
 
+.familyName {
+    color: white;
+}
+
 .imgLogo {
     max-width: 150px;
     width: 100%;
-    margin-left: 50%;
+    margin: 0 auto;
 }
 
 .iconLogOut {
-    color: white;
+    color: #5e2129;
+    margin-left: 5px;
+}
+
+.resources {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .resourcesMenu {
     color: black;
     padding: 10px;
-    font-size: 1.3em;
+    font-size: 1em;
 }
 
 .navbarResources {
     background-color: #5e2129;
+    margin: 0 auto;
 }
 
-.resources {
+.resources li {
     background-color: bisque;
     color: black;
     border: double 2px bisque;
     border-radius: 5px;
-    margin: 0 auto;
+    margin: 5px;
 }
 
 .clear {

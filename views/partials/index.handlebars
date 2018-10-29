@@ -1,9 +1,53 @@
-<ul id="constructions" class="list-group list-group-flush">
+<div class="tab-content" id="v-pills-tabContent">
+    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <h2 class="page-header">Bienvenido {{user.name}}</h2>
+        <p>Esta es tu página principal. Eres la familia {{familia.name}}</p>
+        <a href="/web2">hola</a>
+    </div>
+    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        <div class="row" id="constructions"></div>
+    </div>
+    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
 
-</ul>
+    </div>
+    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+
+    </div>
+</div>
+
 
 
 <script>
+
+    //////////////////////////////////////////////////////
+    // Recursos de la familia
+    //////////////////////////////////////////////////////
+    let id = "{{familia._id}}";
+    actualizar();
+
+    function actualizar() {
+        $(document).ready(function () {
+            $.get(`http://localhost:3000/resources/getResources/${id}`, function (data, status) {
+                let food = data[0];
+                let wine = data[1];
+                let wood = data[2];
+                let iron = data[3];
+                let stone = data[4];
+                document.getElementById("food").innerHTML = food;
+                document.getElementById("wine").innerHTML = wine;
+                document.getElementById("wood").innerHTML = wood;
+                document.getElementById("iron").innerHTML = iron;
+                document.getElementById("stone").innerHTML = stone;
+            });
+        });
+    }
+    // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
+    setInterval(actualizar, 1000);
+
+
+
+
+
     //////////////////////////////////////////////////////
     // Construcciones de la familia
     //////////////////////////////////////////////////////
@@ -19,18 +63,21 @@
                     value = data[i][4].split(';');
                 }
 
-                html += '   <li class="list-group-item">';
-                html += '       <p>Description of ' + data[i][0] + '</p>';
+                html += '<div class=\"col-md-12\" id=\"' + data[i][0] + '\">';
+                html += '<h2>' + data[i][0] + '</h2>';
+                html += '<p>' + data[i][1] + '</p>';
                 if (data[i][2] < data[i][5]) {
-                    html += '   <p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
-                    html += '   <a class=\"btn btn-primary\" id=\"' + data[i][0] + '\" onclick=\"updateConstruction(\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></a>';
+                    html += '<p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
+                    html += '<p><button class=\"btn btn-secondary\" id=\"' + data[i][0] + '\" onclick=\"updateConstruction(\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></button></p>';
                 }
-                html += '   </li>';
+                html += '<hr class=\"my-4\">';
+                html += '</div>';
 
             }
             divConstructions.html(html);
         });
     });
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 

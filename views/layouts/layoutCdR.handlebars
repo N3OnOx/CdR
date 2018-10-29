@@ -15,45 +15,72 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbarResources">
-        <!-- Brand/logo -->
-        <a class="navbar-brand" href="/"><img class="imgLogo" src="/images/corona.png"></a>
+    <div class="container-fluid">
+        <div class="row ">
+            <nav class="navbar navbar-expand-sm navbarResources" style="width: 100%;">
+                <div class="col-3">
+                    <!-- Brand/logo -->
+                    <a class="navbar-brand" href="/"><img class="imgLogo" src="/images/corona.png"></a>
+                </div>
+                <div class="col-1">
+                    {{#if user}}
+                    <h1 class="familyName">{{familia.name}}</h1>
+                </div>
+                <div class="col-8">
+                    <!-- Links -->
+                    <ul class="navbar-nav resources">
+                        <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-utensils"></i> <span id="food"></span></span></li>
+                        <li class="nav-item"><span class="resourcesMenu"><i style="color: #5e2129;" class="fas fa-wine-glass-alt"></i>
+                                <span id="wine"></span></span></li>
+                        <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-tree"></i> <span id="wood"></span></span></li>
+                        <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-mountain"></i> <span id="stone"></span></span></li>
+                        <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-hammer"></i> <span id="iron"></span></span></li>
+                        <li class="nav-item"><span class="resourcesMenu"><i style="color: #ffd700;" class="fas fa-coins"></i>
+                                <span id="gold">0</span></span></li>
+                    </ul>
+                    {{/if}}
+                </div>
 
-        <!-- Links -->
-        {{#if user}}
-        <ul class="navbar-nav resources">
+            </nav>
+        </div>
+    </div>
 
-            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-utensils"></i> <span id="food"></span></span></li>
-            <li class="nav-item"><span class="resourcesMenu"><i style="color: #5e2129;" class="fas fa-wine-glass-alt"></i>
-                    <span id="wine"></span></span></li>
-            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-tree"></i> <span id="wood"></span></span></li>
-            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-mountain"></i> <span id="stone"></span></span></li>
-            <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-hammer"></i> <span id="iron"></span></span></li>
-            <li class="nav-item"><span class="resourcesMenu"><i style="color: #ffd700;" class="fas fa-coins"></i> <span
-                        id="gold">0</span></span></li>
 
-        </ul>
-        <a class="nav-link" href="/users/logout"><span class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
-        {{/if}}
-    </nav>
     <div id="cont">
         <div class="container-fluid">
             <div class="row">
+                {{#if user}}
                 <div class="col-2">
-                    <div class="flex-column nav-pills menu" aria-orientation="vertical">
-                        <a href="/">Vision General</a>
-                        <a class="nav-link" href="/edificios">Edificios</a>
-                        <a class="nav-link" href="/">Messages</a>
-                        <a class="nav-link" href="/">Settings</a>
-                        <a class="nav-link" href="/">Vision General</a>
+                    <div class="menu" >
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Vision General</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/edificios">Edificios</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Tropas</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Entrenamiento</a>
+                        <a class="btn btn-block btn-sm btn-outline-success" href="/">Mapa</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Estadisticas</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Alianza</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Recursos</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Casas</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Misiones</a>
+                        <a class="btn btn-block btn-sm btn-outline-warning" href="/">Mensajes</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Clasificaciones</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Amigos</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Estadisticas Globales</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Chat</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Foro</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Normativa</a>
+                        <a class="btn btn-block btn-sm btn-outline-info" href="/">Configuración</a>
+                        <a class="btn btn-block btn-sm btn-outline-danger" href="/users/logout">Cerrar sesión <span class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
                     </div>
                 </div>
-                <div class="col-md-8 m1-md-auto cuerpo">
+                {{/if}}
+                <div class="col-8 cuerpo">
                     {{{body}}}
                 </div>
             </div>
         </div>
     </div>
+
     <div class="container-fluid clear footer">
         <div class="row">
             <div class="col-12">
