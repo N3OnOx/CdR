@@ -2,8 +2,42 @@ let { getResourcePosition } = require('../utilities/utilities');
 let { io } = require('../app');
 var express = require('express');
 var Family = require('../models/family');
+var Active = require('../models/active');
 const app = express();
 
+/////////////////////////////////////////////
+// Enviar tiempos de construcciones al cliente
+/////////////////////////////////////////////
+
+io.on('connection', function(client) {
+    client.on('constructionsModal', function(data) {
+        let id = data.id;
+
+        Active.find((err, activesDB) => {
+            if (err) {
+                console.log("Error")
+            }
+
+            if (!activesDB) {
+                console.log("No existe la familia")
+            }
+            let dataConstructions = new Array(activesDB);
+            for (var i = 0; i < dataConstructions.length; i++) {
+                dataConstructions[i] = new Array(2);
+            }
+            //Bucle que recorre el primer array
+            for (var i = 0; i < dataConstructions.length; i++) {
+                //Bucle que recorre el array que está en la posición i
+                for (var j = 0; j < dataConstructions[i].length; j++) {
+                    dataConstructions[i][0] = activesDB[i].construction;
+                    dataConstructions[i][1] = activesDB[i].dateEnd;
+                }
+            }
+            console.log(dataConstructions)
+            client.emit('constructionsModal', dataConstructions);
+        });
+    });
+});
 
 
 /////////////////////////////////////////////
@@ -33,7 +67,7 @@ io.on('connection', function(client) {
                     dataConstructions[i][0] = familiaDB.construction[i][0];
                     dataConstructions[i][1] = familiaDB.construction[i][1];
                     dataConstructions[i][2] = familiaDB.construction[i][2];
-                    dataConstructions[i][3] = familiaDB.construction[i][3][familiaDB.construction[i][2] + 1].benefits;
+                    dataConstructions[i][3] = familiaDB.construction[i][3][familiaDB.construction[i][2]].benefits;
                     dataConstructions[i][4] = familiaDB.construction[i][3][familiaDB.construction[i][2]].valor;
                     dataConstructions[i][5] = familiaDB.construction[i][3].length - 1;
                 }
@@ -79,7 +113,6 @@ io.on('connection', function(client) {
             for (let i = 0; i < arrayConstructions.length; i++) {
                 // Comparamos si la construccion de la posicion i del array es la construccion pasada por parametro
                 if (arrayConstructions[i][0] == construction) {
-                    console.log(familiaDB.construction[i][3][familiaDB.construction[i][2]]);
                     // Recogemos en un array los niveles que tiene esa construccion
                     let nLevels = arrayConstructions[i][3].length - 1;
                     // Comprobamos si el nivel de la construccion pasada por parametro es menor que el numero maximo de niveles de esa construccion
@@ -107,47 +140,56 @@ io.on('connection', function(client) {
                         }
                         if (check) {
                             var time = familiaDB.construction[i][3][familiaDB.construction[i][2] + 1].time;
-                            if (!time > 0) {
-                                client.emit('time', 0);
-                                break;
-                            } else {
-                                client.emit('time', time);
-                                setTimeout(makeConstruction, time, familiaDB, i);
+                            let nameConstruction = familiaDB.construction[i][0];
+                            var newDate = Date.now();
+                            newDate = newDate + time;
+                            var date = new Date(newDate)
+                            console.log(date);
+                            client.emit('time', time);
+                            let newC = new Active({ family: id, 'construction': nameConstruction, 'dateEnd': date });
+                            newC.save(function(err, book) {
+                                if (err) return console.error(err);
+                            });
+                            /*Active.deleteOne({ family: id, construction: 5 }, function(err) {
+                                if (err) return handleError(err);
+                            });*/
+                            setTimeout(makeConstruction, time, familiaDB, i);
 
-                                function makeConstruction() {
-                                    for (var k = 0; k < arrayValueConstruction.length; k++) {
-                                        let objeto = arrayValueConstruction[k].split(":");
-                                        let position = getResourcePosition(objeto[0]);
-                                        let newValue = familiaDB.resources[position][1] - objeto[1];
-                                        console.log('Has restado ' + objeto[1] + ' a ' + objeto[0]);
-                                        familiaDB.updateOne({
-                                                "$set": {
-                                                    ['resources.' + position + '.1']: newValue
-                                                }
-                                            },
-                                            function(err, raw) {
-                                                if (err) return handleError(err);
-                                                //console.log('The raw response from Mongo was ', raw);
-                                                console.log("Recurso " + objeto[0] + " actualizado con éxito");
-                                            }
-                                        );
-                                    }
+                            function makeConstruction() {
 
-                                    let newLevelConstruction = familiaDB.construction[i][2] + 1;
+                                for (var k = 0; k < arrayValueConstruction.length; k++) {
+                                    let objeto = arrayValueConstruction[k].split(":");
+                                    let position = getResourcePosition(objeto[0]);
+                                    let newValue = familiaDB.resources[position][1] - objeto[1];
+                                    console.log('Has restado ' + objeto[1] + ' a ' + objeto[0]);
                                     familiaDB.updateOne({
                                             "$set": {
-                                                ['construction.' + i + '.2']: newLevelConstruction
+                                                ['resources.' + position + '.1']: newValue
                                             }
                                         },
                                         function(err, raw) {
                                             if (err) return handleError(err);
                                             //console.log('The raw response from Mongo was ', raw);
+                                            console.log("Recurso " + objeto[0] + " actualizado con éxito");
                                         }
                                     );
-
-                                    console.log('Familia actualizada con éxito');
                                 }
+
+                                let newLevelConstruction = familiaDB.construction[i][2] + 1;
+                                familiaDB.updateOne({
+                                        "$set": {
+                                            ['construction.' + i + '.2']: newLevelConstruction
+                                        }
+                                    },
+                                    function(err, raw) {
+                                        if (err) return handleError(err);
+                                        //console.log('The raw response from Mongo was ', raw);
+                                    }
+                                );
+
+                                console.log('Familia actualizada con éxito');
                             }
+
                         } else {
                             console.log('No tienes recursos suficientes');
                         }

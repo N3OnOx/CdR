@@ -37,6 +37,9 @@
                         <li class="nav-item"><span class="resourcesMenu"><i class="fas fa-hammer"></i> <span id="iron"></span></span></li>
                         <li class="nav-item"><span class="resourcesMenu"><i style="color: #ffd700;" class="fas fa-coins"></i>
                                 <span id="gold">0</span></span></li>
+                        <li class="nav-item">
+                            <a id="modal-397489" href="#modal-container-397489" role="button" class="btn" data-toggle="modal">Construyendo</a>
+                        </li>
                     </ul>
                     {{/if}}
                 </div>
@@ -51,26 +54,25 @@
                 {{#if user}}
                 <div class="col-2">
                     <div class="menu">
-                        <a class="btn btn-block  " href="/">Vision General</a>
-                        <a class="btn btn-block  " href="/edificios">Edificios</a>
-                        <a class="btn btn-block  " href="/">Tropas</a>
-                        <a class="btn btn-block  " href="/">Entrenamiento</a>
-                        <a class="btn btn-block  " href="/">Mapa</a>
-                        <a class="btn btn-block  " href="/">Estadisticas</a>
-                        <a class="btn btn-block  " href="/">Alianza</a>
-                        <a class="btn btn-block  " href="/">Recursos</a>
-                        <a class="btn btn-block  " href="/">Casas</a>
-                        <a class="btn btn-block  " href="/">Misiones</a>
-                        <a class="btn btn-block  " href="/">Mensajes</a>
-                        <a class="btn btn-block  " href="/">Clasificaciones</a>
-                        <a class="btn btn-block  " href="/">Amigos</a>
-                        <a class="btn btn-block  " href="/">Estadisticas Globales</a>
-                        <a class="btn btn-block  " href="/">Chat</a>
-                        <a class="btn btn-block  " href="/">Foro</a>
-                        <a class="btn btn-block  " href="/">Normativa</a>
-                        <a class="btn btn-block  " href="/">Configuración</a>
-                        <a class="btn btn-block  " href="/users/logout">Cerrar sesión <span
-                                class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
+                        <a class="btn btn-block" href="/">Vision General</a>
+                        <a class="btn btn-block" href="/edificios">Edificios</a>
+                        <a class="btn btn-block" href="/">Tropas</a>
+                        <a class="btn btn-block" href="/">Entrenamiento</a>
+                        <a class="btn btn-block" href="/">Mapa</a>
+                        <a class="btn btn-block" href="/">Estadisticas</a>
+                        <a class="btn btn-block" href="/">Alianza</a>
+                        <a class="btn btn-block" href="/">Recursos</a>
+                        <a class="btn btn-block" href="/">Casas</a>
+                        <a class="btn btn-block" href="/">Misiones</a>
+                        <a class="btn btn-block" href="/">Mensajes</a>
+                        <a class="btn btn-block" href="/">Clasificaciones</a>
+                        <a class="btn btn-block" href="/">Amigos</a>
+                        <a class="btn btn-block" href="/">Estadisticas Globales</a>
+                        <a class="btn btn-block" href="/">Chat</a>
+                        <a class="btn btn-block" href="/">Foro</a>
+                        <a class="btn btn-block" href="/">Normativa</a>
+                        <a class="btn btn-block" href="/">Configuración</a>
+                        <a class="btn btn-block" href="/users/logout">Cerrar sesión <span class="fas fa-sign-out-alt fa-1x iconLogOut"></span></a>
                     </div>
                 </div>
                 {{/if}}
@@ -91,36 +93,108 @@
         </div>
     </div>
     {{#if user}}
+    <div class="modal fade" id="modal-container-397489" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">
+                        Construcciones en proceso
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body row" id="constructionsModal">
+                    <div class="col-4" id="constructionsModalName">
+                        <p>Hola</p>
+                    </div>
+                    <div class="col-8" id="constructionsModalTime">
+                        <p>Adios</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script>
 
-    //////////////////////////////////////////////////////
-    // Recursos de la familia
-    //////////////////////////////////////////////////////
-    let id = "{{familia._id}}";
-    actualizar();
+        //////////////////////////////////////////////////////
+        // Recursos de la familia
+        //////////////////////////////////////////////////////
+        let id = "{{familia._id}}";
+        actualizar();
+        constructionsModal();
 
-    function actualizar() {
-        $(document).ready(function () {
-            var socket = io();
-            socket.emit('resources', { id: id });
-            socket.on('resources', function (data) {
-                let food = data[0];
-                let wine = data[1];
-                let wood = data[2];
-                let iron = data[3];
-                let stone = data[4];
-                document.getElementById("food").innerHTML = food;
-                document.getElementById("wine").innerHTML = wine;
-                document.getElementById("wood").innerHTML = wood;
-                document.getElementById("iron").innerHTML = iron;
-                document.getElementById("stone").innerHTML = stone;
+        function actualizar() {
+            $(document).ready(function () {
+                var socket = io();
+                socket.emit('resources', { id: id });
+                socket.on('resources', function (data) {
+                    let food = data[0];
+                    let wine = data[1];
+                    let wood = data[2];
+                    let iron = data[3];
+                    let stone = data[4];
+                    document.getElementById("food").innerHTML = food;
+                    document.getElementById("wine").innerHTML = wine;
+                    document.getElementById("wood").innerHTML = wood;
+                    document.getElementById("iron").innerHTML = iron;
+                    document.getElementById("stone").innerHTML = stone;
+                });
             });
-        });
-    }
-    // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
-    setInterval(actualizar, 1000);
-</script>    
-{{/if}}
+        }
+        // Si queremos actualizar el recurso en tiempo real en nuestro cliente descomentar la siguiente linea. Si no, se actualizaran los recursos al recargar la página
+        setInterval(actualizar, 1000);
+
+        function constructionsModal() {
+            var socket = io();
+            socket.emit('constructionsModal', { id: id });
+            socket.on('constructionsModal', function (data) {
+                countDown(data.dateEnd);
+            });
+        }
+
+        function countDown(date) {
+            console.log(date)
+
+            // Set the date we're counting down to
+            var countDownDate = new Date(data.dateEnd).getTime();
+
+            // Update the count down every 1 second
+            var x = setInterval(function () {
+
+                // Get todays date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Output the result in an element with id="demo"
+                document.getElementById("constructionsModalTime").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+                // If the count down is over, write some text 
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("constructionsModalTime").innerHTML = "EXPIRED";
+                }
+            }, 50000);
+        }
+
+    </script>
+    {{/if}}
 </body>
+
 </html>

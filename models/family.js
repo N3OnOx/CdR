@@ -119,7 +119,7 @@ var FamilySchema = mongoose.Schema({
             ]],
         ]
     },
-    constructionID: { type: String }
+    active: { type: Array, default: [] }
 });
 
 module.exports = mongoose.model('Family', FamilySchema);
