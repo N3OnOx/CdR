@@ -19,17 +19,11 @@ io.on('connection', function(client) {
 
         Family.findById(id, (err, familiaDB) => {
             if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                });
+                console.log("Error")
             }
 
             if (!familiaDB) {
-                return res.status(400).json({
-                    ok: false,
-                    message: 'No existe la familia'
-                });
+                console.log("No existe la familia")
             }
             let dataConstructions = new Array(familiaDB.construction.length);
             for (var i = 0; i < dataConstructions.length; i++) {
