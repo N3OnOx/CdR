@@ -9,40 +9,46 @@ const app = express();
 /////////////////////////////////////////////
 // Enviar datos de construcciones al cliente
 /////////////////////////////////////////////
-app.get('/resources/getConstructions/:id', (req, res) => {
-    let id = req.params.id;
 
-    Family.findById(id, (err, familiaDB) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
+io.on('connection', function(client) {
+    client.on('bienvenido', function(data) {
+        console.log(data);
+    })
+    client.on('constructions', function(data) {
+        let id = data.id;
 
-        if (!familiaDB) {
-            return res.status(400).json({
-                ok: false,
-                message: 'No existe la familia'
-            });
-        }
-        let dataConstructions = new Array(familiaDB.construction.length);
-        for (var i = 0; i < dataConstructions.length; i++) {
-            dataConstructions[i] = new Array(7);
-        }
-        //Bucle que recorre el primer array
-        for (var i = 0; i < dataConstructions.length; i++) {
-            //Bucle que recorre el array que está en la posición i
-            for (var j = 0; j < dataConstructions[i].length; j++) {
-                dataConstructions[i][0] = familiaDB.construction[i][0];
-                dataConstructions[i][1] = familiaDB.construction[i][1];
-                dataConstructions[i][2] = familiaDB.construction[i][2];
-                dataConstructions[i][3] = familiaDB.construction[i][3][familiaDB.construction[i][2]].benefits;
-                dataConstructions[i][4] = familiaDB.construction[i][3][familiaDB.construction[i][2]].valor;
-                dataConstructions[i][5] = familiaDB.construction[i][3].length - 1;
+        Family.findById(id, (err, familiaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
             }
-        }
-        res.send(dataConstructions);
+
+            if (!familiaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    message: 'No existe la familia'
+                });
+            }
+            let dataConstructions = new Array(familiaDB.construction.length);
+            for (var i = 0; i < dataConstructions.length; i++) {
+                dataConstructions[i] = new Array(7);
+            }
+            //Bucle que recorre el primer array
+            for (var i = 0; i < dataConstructions.length; i++) {
+                //Bucle que recorre el array que está en la posición i
+                for (var j = 0; j < dataConstructions[i].length; j++) {
+                    dataConstructions[i][0] = familiaDB.construction[i][0];
+                    dataConstructions[i][1] = familiaDB.construction[i][1];
+                    dataConstructions[i][2] = familiaDB.construction[i][2];
+                    dataConstructions[i][3] = familiaDB.construction[i][3][familiaDB.construction[i][2]].benefits;
+                    dataConstructions[i][4] = familiaDB.construction[i][3][familiaDB.construction[i][2]].valor;
+                    dataConstructions[i][5] = familiaDB.construction[i][3].length - 1;
+                }
+            }
+            client.emit('constructions', dataConstructions);
+        });
     });
 });
 

@@ -12,7 +12,9 @@
         let id = "{{familia._id}}";
         let divConstructions = $('#constructions');
         let html = '';
-        $.get(`http://localhost:3000/resources/getConstructions/${id}`, function (data, status) {
+        var socket = io.connect('http://localhost:3000/');
+        socket.emit('constructions', {id: id})
+        socket.on('constructions', function (data) {
             for (var i = 0; i < data.length; i++) {
                 let value;
                 if (data[i][2] < data[i][5]) {
@@ -30,7 +32,7 @@
             }
             divConstructions.html(html);
         });
-    });
+    })
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 
