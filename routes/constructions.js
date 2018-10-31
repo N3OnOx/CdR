@@ -13,7 +13,7 @@ io.on('connection', function(client) {
     client.on('constructionsModal', function(data) {
         let id = data.id;
 
-        Active.find((err, activesDB) => {
+        Active.find({ family: id }, (err, activesDB) => {
             if (err) {
                 console.log("Error")
             }
@@ -21,20 +21,11 @@ io.on('connection', function(client) {
             if (!activesDB) {
                 console.log("No existe la familia")
             }
-            let dataConstructions = new Array(activesDB);
-            for (var i = 0; i < dataConstructions.length; i++) {
-                dataConstructions[i] = new Array(2);
-            }
-            //Bucle que recorre el primer array
-            for (var i = 0; i < dataConstructions.length; i++) {
-                //Bucle que recorre el array que está en la posición i
-                for (var j = 0; j < dataConstructions[i].length; j++) {
-                    dataConstructions[i][0] = activesDB[i].construction;
-                    dataConstructions[i][1] = activesDB[i].dateEnd;
-                }
-            }
-            console.log(dataConstructions)
-            client.emit('constructionsModal', dataConstructions);
+
+
+            console.log("siguiente")
+            console.log(activesDB)
+            client.emit('constructionsModal', activesDB);
         });
     });
 });
