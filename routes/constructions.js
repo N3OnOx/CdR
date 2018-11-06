@@ -6,6 +6,23 @@ var Active = require('../models/active');
 const app = express();
 
 /////////////////////////////////////////////
+// Eliminar tiempos de construcciones del cliente
+/////////////////////////////////////////////
+
+io.on('connection', function(client) {
+    client.on('constructionsModalEnd', function(data) {
+        let id = data.id;
+        let construction = data.construction;
+
+        Active.deleteOne({ family: id, construction: construction }, function(err) {
+            if (err) return handleError(err);
+            console.log("Se ha eliminado correctamente")
+            client.emit("constructionsModalEnd", "La construccion ha sido eliminada de los tiempos");
+        });
+    });
+});
+
+/////////////////////////////////////////////
 // Enviar tiempos de construcciones al cliente
 /////////////////////////////////////////////
 
@@ -22,9 +39,6 @@ io.on('connection', function(client) {
                 console.log("No existe la familia")
             }
 
-
-            console.log("siguiente")
-            console.log(activesDB)
             client.emit('constructionsModal', activesDB);
         });
     });
