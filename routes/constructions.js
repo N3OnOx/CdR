@@ -77,6 +77,7 @@ io.on('connection', function(client) {
                     dataConstructions[i][5] = familiaDB.construction[i][3].length - 1;
                 }
             }
+            console.log(dataConstructions)
             client.emit('constructions', dataConstructions);
         });
     });

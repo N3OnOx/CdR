@@ -30,6 +30,8 @@ function constructionsModal() {
     var socket = io();
     socket.emit('constructionsModal', { id: id });
     socket.on('constructionsModal', function(data) {
+        document.getElementById("constructionsModalName").innerHTML = "";
+        document.getElementById("constructionsModalTime").innerHTML = "";
         let fechaHoy = new Date();
         for (var i = 0; i < data.length; i++) {
             let fechaEnd = new Date(data[i].dateEnd);
@@ -38,7 +40,6 @@ function constructionsModal() {
                 socket.on('constructionsModalEnd', function(data) {
                     console.log(data);
                 });
-                location.reload();
             } else {
                 countDown(data[i]);
             }
@@ -58,7 +59,7 @@ function countDown(date) {
     document.getElementById("constructionsModalName").appendChild(node);
 
     var node2 = document.createElement("DIV");
-    node2.id = date.construction + "Time" + date.level;
+    node2.id = date.construction + "Time";
     var textnode2 = document.createTextNode("00:00:00");
     node2.appendChild(textnode2);
     document.getElementById("constructionsModalTime").appendChild(node2);
@@ -91,8 +92,8 @@ function countDown(date) {
             socket.on('constructionsModalEnd', function(data) {
                 console.log(data);
             });
-            location.reload();
-
+            constructionsModal();
+            location.reload(true);
         };
     }, 1000);
 
@@ -106,24 +107,28 @@ function countDown(date) {
 let divConstructions = $('#constructions');
 let html = '';
 var socket = io();
-socket.emit('constructions', { id: id });
-socket.on('constructions', function(data) {
-    for (var i = 0; i < data.length; i++) {
-        let value;
-        if (data[i][2] < data[i][5]) {
-            value = data[i][4].split(';');
-        }
-        html += '   <li class="list-group-item">';
-        html += '       <p>Description of ' + data[i][0] + '</p>';
-        if (data[i][2] < data[i][5]) {
-            html += '   <p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
-            html += '   <button class=\"btn updateConstructionButton\" id=\"' + data[i][0] + '\" onclick=\"updateConstruction(\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></button>';
-        }
-        html += '   </li>';
 
-    }
-    divConstructions.html(html);
-});
+function makeConstructions() {
+    socket.emit('constructions', { id: id });
+    socket.on('constructions', function(data) {
+        for (var i = 0; i < data.length; i++) {
+            let value;
+            if (data[i][2] < data[i][5]) {
+                value = data[i][4].split(';');
+            }
+            html += '   <li id=\"' + data[i][0] + 'Li\" class="list-group-item">';
+            html += '       <p>Description of ' + data[i][0] + '</p>';
+            if (data[i][2] < data[i][5]) {
+                html += '   <p>Valor: ' + value[0] + ' ||| Beneficio: ' + data[i][3] + '</p>';
+                html += '   <button class=\"btn updateConstructionButton\" id=\"' + data[i][0] + '\" onclick=\"updateConstruction(\'' + data[i][0] + '\')\" >Subir a nivel ' + (data[i][2] + 1) + ' <span id="time' + data[i][0] + '"></span></button>';
+            }
+            html += '   </li>';
+
+        }
+        divConstructions.html(html);
+    });
+}
+makeConstructions();
 
 
 function updateConstruction(construction) {
@@ -131,7 +136,7 @@ function updateConstruction(construction) {
     socket.on('time', function(time) {
         console.log('El server te envia tiempo: ' + time + ' milisegundos');
         console.log("Bloqueando boton");
-        location.reload();
+        constructionsModal();
     });
 
 }
